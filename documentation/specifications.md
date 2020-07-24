@@ -1,4 +1,4 @@
-#Algoviz - A pathfinding algorithm visualizer
+# Algoviz - A pathfinding algorithm visualizer
 
 ## Introduction
 
