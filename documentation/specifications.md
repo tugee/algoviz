@@ -4,7 +4,10 @@
 
 I have chosen to create a pathfinding visualization tool as my project for the Data Structures and Algorithms laboratory course at the University of Helsinki. 
 The program will visualize the way in which different pathfinding algorithms find the shortest path between two nodes in a grid. 
-The visualization naturally requires a graphical user interface and in order to allow for more robust functionality, the user will be able to choose the location of the start and finish nodes and to draw obstacles between these nodes.  
+The visualization naturally requires a graphical user interface and in order to allow for more robust functionality, the user will be able to choose the location of the start and finish nodes and to draw obstacles between these nodes. The user will be able to place obstacles of different varieties, from completely blocking (weight of infinity) to one's of variable weights.
+
+Each individual box in the grid acts as a node, each node has vertices to all adjacent nodes, including diagonals.
+
 The programme will be implemented in Java.
 
 ## Algorithms and data structures to be implemented
