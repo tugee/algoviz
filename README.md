@@ -1,0 +1,2 @@
+# algoviz
+Pathfinding algorithm visualizer
