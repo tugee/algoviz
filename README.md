@@ -3,8 +3,8 @@ Project for the Data Structures and Algorithms laboratory course at the Universi
 Coded in Java
 
 ## Documentation
-[Specification document](documentation/specifications.md)
-[Implementation](documentation/implementation.md)
+- [Specification document](documentation/specifications.md)
+- [Implementation](documentation/implementation.md)
 
 ## Weekly reports
-[Week 1](documentation/weeklyreports/week1.md)
+- [Week 1](documentation/weeklyreports/week1.md)
