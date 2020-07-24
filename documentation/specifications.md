@@ -24,6 +24,6 @@ Space complexity for both: ![equation](https://latex.codecogs.com/gif.latex?O%28
 
 Where E is the number of edges in the graph and V is the number of vertices.
 ## Sources
-https://en.wikipedia.org/wiki/A*_search_algorithm
-http://theory.stanford.edu/~amitp/GameProgramming/AStarComparison.html#dijkstras-algorithm-and-best-first-search
-https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
+- https://en.wikipedia.org/wiki/A*_search_algorithm
+- http://theory.stanford.edu/~amitp/GameProgramming/AStarComparison.html#dijkstras-algorithm-and-best-first-search
+- https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
