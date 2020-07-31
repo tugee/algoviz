@@ -11,7 +11,7 @@ Read more about the algorithms I will be implementing. Scoured through a few oth
 Creating the structure of the project. What part to begin the development at first. Unit testing.
 
 ## What will I do next?
-I will need to plan my workflow better. Start implementing the A* and JPS algorithms and creating the necessary unit tests. Implementing 
+I will need to plan my workflow better. Finish the implementation of Dijkstra's algorithm. Start implementing the A* and JPS algorithms and creating the necessary unit tests. Replace the inbuilt Java data structures with self-created ones and start developing the UI.
 
 ## Time
 This weeks workload was around 5 hours.
