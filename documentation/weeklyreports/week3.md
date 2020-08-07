@@ -2,7 +2,7 @@
 
 ## What did I accomplish?
 This week's workload was hindered by the models of computation (Laskennan mallit) exam I had on the day before the deadline, preparation to which prevented me from making sizeable progress with the project.
-I did however start fleshing out some code and get the ball rolling on the implementation of Dijkstra's.
+I did however start fleshing out some code and get the ball rolling on the implementation of Dijkstra's. I also added the checkstyle plugin to maven.
 
 ## What did I learn this week?
 Not much in terms of new stuff learned.
