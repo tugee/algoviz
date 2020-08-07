@@ -5,6 +5,8 @@
  */
 package visualizer.datastructures;
 
+import static java.lang.Math.abs;
+import java.util.ArrayList;
 import java.util.Comparator;
 
 /**
@@ -16,7 +18,8 @@ public class Node implements Comparator<Node>{
     private int x;
     private int y;
     private int priority;
-    private int MinDistance;
+    private double MinDistance;
+    private ArrayList<Node> neighbours;
     private boolean visited = false;
     Node previous;
     
@@ -38,8 +41,12 @@ public class Node implements Comparator<Node>{
         return priority;
     }
     
-    public int getMinDistance() {
+    public double getMinDistance() {
         return MinDistance;
+    }
+    
+    public double setMinDistance(double distance){
+        MinDistance = distance;
     }
 
     public Node getPrevious() {
@@ -52,6 +59,14 @@ public class Node implements Comparator<Node>{
     
     public boolean getVisited(){
         return this.visited;
+    }
+    
+    public double adjancenctDistance(int x2, int y2){
+        if((Math.abs(x2-x)==1) && (Math.abs(y2-y)==1)){
+            return 1.4142;
+        } else {
+            return 1;
+        }
     }
 
     @Override
