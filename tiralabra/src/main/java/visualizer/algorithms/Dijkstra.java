@@ -48,20 +48,24 @@ public class Dijkstra {
     }
     
     public void findPath(){
-        Start.setMinDistance(0);
         distanceFromBeginning[Start.getY()][Start.getX()] = 0;
+        Start.setMinDistance(0);
         pq.add(Start);
         while(!pq.isEmpty()){
             Node node = pq.poll();
                 if(settled[node.getY()][node.getX()]){
                     continue;
                 }
+                // is there an issue here, where the first time you reach the end node, it might not be the shortest?
+                if(node.equals(Finish)){
+                    returnPath();
+                }
                 
                 settled[node.getY()][node.getX()] = true;
+                countSettled++;
                 // this will not stop calculation at nodes which are wasted?
                 for(int xDirection : directions ){
                     for(int yDirection : directions) {
-                        
                         int neighbourX = node.getX()-xDirection;
                         int neighbourY = node.getY()+yDirection;
                         
@@ -70,7 +74,7 @@ public class Dijkstra {
                         }
                         
                         double currentDistance = distanceFromBeginning[neighbourY][neighbourX];
-                        double newDistance = node.getMinDistance() + node.adjancenctDistance(neighbourX,neighbourY);
+                        double newDistance = node.getMinDistance() + node.adjacentDistance(neighbourX,neighbourY);
                         
                         if(newDistance < currentDistance){
                             distanceFromBeginning[node.getY()][node.getX()] = newDistance;
@@ -83,8 +87,6 @@ public class Dijkstra {
         }
     }
     
-    
-    
     public boolean checkValidNode(int x, int y){
         if(x < 0 || y < 0 || x >= width || y >= height){
             // add map block checker
@@ -93,9 +95,9 @@ public class Dijkstra {
             return true;
         }
     }
-    
-    
-    public void findNeighbours(){
-        
+
+
+    private void returnPath() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

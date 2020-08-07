@@ -19,7 +19,6 @@ public class Node implements Comparator<Node>{
     private int y;
     private int priority;
     private double MinDistance;
-    private ArrayList<Node> neighbours;
     private boolean visited = false;
     Node previous;
     
@@ -45,8 +44,12 @@ public class Node implements Comparator<Node>{
         return MinDistance;
     }
     
-    public double setMinDistance(double distance){
+    public void setMinDistance(double distance){
         MinDistance = distance;
+    }
+    
+    public void setPrevious(Node previous){
+        this.previous = previous;
     }
 
     public Node getPrevious() {
@@ -61,7 +64,7 @@ public class Node implements Comparator<Node>{
         return this.visited;
     }
     
-    public double adjancenctDistance(int x2, int y2){
+    public double adjacentDistance(int x2, int y2){
         if((Math.abs(x2-x)==1) && (Math.abs(y2-y)==1)){
             return 1.4142;
         } else {
@@ -78,5 +81,12 @@ public class Node implements Comparator<Node>{
             return 1;
         }
         return 0;
+    }
+    
+    public boolean equals(Node o1){
+        if(o1.getX()==x && o1.getY()==y){
+            return true;
+        }
+        return false;
     }
 }
