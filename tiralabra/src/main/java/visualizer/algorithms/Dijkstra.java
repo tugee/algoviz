@@ -47,7 +47,18 @@ public class Dijkstra {
         }
     }
     
-    public void findPath(){
+    /**
+     *
+     * Implementation of the dijkstra's pathfinding algorithm using a priority queue.
+     * The method uses the initialized Start and Finish nodes and tries to find the shortest path between them.
+     * As soon as Dijkstra's settles the Finish node we adjust the character array that is the map in order to allow for the UI to draw the path.
+     * After this we return the distance from the prespecified start node to the finish node.
+     * 
+     */
+    
+    // Dijkstra is jus A* with heuristic 0, overhaul this implementation after finishing A*
+    // Maybe change so that findpath can be used without initializing Start and Finish nodes? a more robust method
+    public double findPath(){
         distanceFromBeginning[Start.getY()][Start.getX()] = 0;
         Start.setMinDistance(0);
         pq.add(Start);
@@ -58,7 +69,8 @@ public class Dijkstra {
                 }
                 // is there an issue here, where the first time you reach the end node, it might not be the shortest?
                 if(node.equals(Finish)){
-                    returnPath();
+                    markPath(node);
+                    return distanceFromBeginning[node.getY()][node.getX()];
                 }
                 
                 settled[node.getY()][node.getX()] = true;
@@ -80,11 +92,13 @@ public class Dijkstra {
                             distanceFromBeginning[node.getY()][node.getX()] = newDistance;
                             Node newNode = new Node(neighbourX,neighbourY);
                             newNode.setMinDistance(newDistance);
+                            newNode.setPrevious(node);
                             pq.add(newNode);
                         }
                     }
                 }
         }
+        return 0;
     }
     
     public boolean checkValidNode(int x, int y){
@@ -97,7 +111,10 @@ public class Dijkstra {
     }
 
 
-    private void returnPath() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void markPath(Node previous) {
+        if(previous.getPrevious()!=null){
+            map[previous.getY()][previous.getX()] = 'P';
+            markPath(previous.getPrevious());
+        }
     }
 }
