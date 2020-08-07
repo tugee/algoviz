@@ -9,3 +9,4 @@ Coded in Java
 ## Weekly reports
 - [Week 1](documentation/weeklyreports/week1.md)
 - [Week 2](documentation/weeklyreports/week2.md)
+- [Week 3](documentation/weeklyreports/week3.md)
