@@ -11,14 +11,16 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-
 /**
  *
  * @author tuukk
  */
 public class AstarTest {
-    
+    Astar algorithm;
+    private final double tolerance = 1;
     public AstarTest() {
+        char[][] map = new char[100][100];
+        algorithm = new Astar(map);
     }
     
     @BeforeClass
@@ -39,8 +41,44 @@ public class AstarTest {
 
     @Test
     public void testSomeMethod() {
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        double distance = algorithm.findPath();
+        System.out.println(distance);
+        assertEquals(140, distance,tolerance);
+    }
+    @Test
+    public void wallTest() {
+        char[][] map2 = new char[3][3];
+        for(int i = 0; i<2;i++){
+            map2[i][1] = 'W';
+        }
+        Astar algorithmShort= new Astar(map2);
+        double distance = algorithmShort.findPath();
+        System.out.println(distance);
+        map2 = algorithmShort.finalMap();
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                System.out.print(map2[i][j] + " ");
+            }
+            System.out.println("");
+        }
+        assertEquals(4, distance, tolerance);
+    }
+    @Test
+    public void impossibleTest() {
+        char[][] map2 = new char[100][100];
+        for(int i = 0; i<100;i++){
+            map2[i][49] = 'W';
+        }
+        for(int i = 0; i<100;i++){
+            for(int j = 0; j<100;j++){
+                System.out.print(map2[i][j]+" ");
+            }
+            System.out.println("");
+        }
+        Astar algorithmImpossible = new Astar(map2);
+        double distance = algorithmImpossible.findPath();
+        System.out.println(distance);
+        assertEquals(0, distance, tolerance);
     }
     
 }

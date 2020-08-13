@@ -57,7 +57,7 @@ public class Dijkstra {
      */
     
     // Dijkstra is jus A* with heuristic 0, overhaul this implementation after finishing A*
-    // Maybe change so that findpath can be used without initializing Start and Finish nodes? a more robust method
+    // Maybe change so that findpath can be used without initializing Start and Finish nodes? a more robust  method
     public double findPath(){
         distanceFromBeginning[Start.getY()][Start.getX()] = 0;
         Start.setMinDistance(0);

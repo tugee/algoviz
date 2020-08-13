@@ -13,12 +13,13 @@ import java.util.Comparator;
  * Implementation for a Node data structure, which is needed in our implementation of a 2D grid
  * @author tuukk
  */
-public class Node implements Comparator<Node>{
+public class Node implements Comparable<Node>{
     
     private int x;
     private int y;
     private int priority;
     private double MinDistance;
+    private double heuristicDistanceEnd;
     private boolean visited = false;
     Node previous;
     
@@ -26,6 +27,7 @@ public class Node implements Comparator<Node>{
         this.x = x;
         this.y = y;
         this.MinDistance = -1;
+        this.heuristicDistanceEnd = 0;
     }
 
     public int getX() {
@@ -46,6 +48,14 @@ public class Node implements Comparator<Node>{
     
     public void setMinDistance(double distance){
         MinDistance = distance;
+    }
+    
+    public double getHeuristicDistanceEnd(){
+        return heuristicDistanceEnd;
+    }
+    
+    public void setHeuristicDistanceEnd(double distance) {
+        heuristicDistanceEnd = distance;
     }
     
     public void setPrevious(Node previous){
@@ -73,11 +83,15 @@ public class Node implements Comparator<Node>{
     }
 
     @Override
-    public int compare(Node o1, Node o2) {
-        if(o1.getMinDistance()<o2.getMinDistance()){
+    public int compareTo(Node o2) {
+        
+        double priority1 = MinDistance + heuristicDistanceEnd;
+        double priority2 = o2.getMinDistance() + o2.getHeuristicDistanceEnd();
+        
+        if(priority1<priority2){
             return -1;
         }
-        if (o1.getMinDistance() > o2.getMinDistance()) {
+        if (priority1>priority2) {
             return 1;
         }
         return 0;
