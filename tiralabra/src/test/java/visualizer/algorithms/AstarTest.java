@@ -49,7 +49,7 @@ public class AstarTest {
     public void wallTest() {
         char[][] map2 = new char[3][3];
         for(int i = 0; i<2;i++){
-            map2[i][1] = 'W';
+            map2[i][1] = '@';
         }
         Astar algorithmShort= new Astar(map2);
         double distance = algorithmShort.findPath();
@@ -67,7 +67,7 @@ public class AstarTest {
     public void impossibleTest() {
         char[][] map2 = new char[100][100];
         for(int i = 0; i<100;i++){
-            map2[i][49] = 'W';
+            map2[i][49] = '@';
         }
         for(int i = 0; i<100;i++){
             for(int j = 0; j<100;j++){

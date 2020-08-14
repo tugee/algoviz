@@ -72,6 +72,7 @@ public class Astar {
                     return distanceFromBeginning[node.getY()][node.getX()];
                 }
                 countSettled++;
+                closed[node.getY()][node.getX()] = true;
                 // this will not stop calculation at nodes which are wasted?
                 for(int xDirection : directions ){
                     for(int yDirection : directions) {
@@ -99,7 +100,7 @@ public class Astar {
     }
     
     public boolean checkValidNode(int x, int y){
-        if(x < 0 || y < 0 || x >= width || y >= height || map[y][x]=='W'){
+        if(x < 0 || y < 0 || x >= width || y >= height || map[y][x]=='@'){
             // add map block checker
             return false;
         }else{
@@ -116,6 +117,10 @@ public class Astar {
             map[previous.getY()][previous.getX()] = 'P';
             markPath(previous.getPrevious());
         }
+    }
+    
+    public boolean[][] getClosed(){
+        return closed;
     }
     
 }

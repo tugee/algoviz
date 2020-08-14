@@ -3,17 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package visualizer.main;
-
-import static javafx.application.Application.launch;
-import visualizer.ui.graphicalUI;
+package visualizer.logic;
 
 /**
  *
  * @author tuukk
  */
-public class main {
-    public static void main(String[] args){
-        launch(graphicalUI.class);
+public class Logic throws FileNotFoundException, IOException{
+    public void mapReader(){
+        
     }
 }

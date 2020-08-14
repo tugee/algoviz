@@ -102,7 +102,7 @@ public class Dijkstra {
     }
     
     public boolean checkValidNode(int x, int y){
-        if(x < 0 || y < 0 || x >= width || y >= height){
+        if(x < 0 || y < 0 || x >= width || y >= height || map[y][x]=='@'){
             // add map block checker
             return false;
         }else{
