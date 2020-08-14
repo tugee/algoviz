@@ -52,7 +52,7 @@ public class graphicalUI extends Application{
         Button aStarFinder = new Button("Find path (A*)");
         Button dijkstraFinder = new Button("Find path (Dijkstra)");
         Button clearField = new Button("Clear field");
-        Button benchmark = new Button("Benchmark");
+        Button benchmark = new Button("Load map");
         ChoiceBox choiceBox = new ChoiceBox();
         Label settledLabel = new Label("Nodes accessed: 0");
         Label timeTaken = new Label("Took: 0 ms");
@@ -61,6 +61,7 @@ public class graphicalUI extends Application{
         choiceBox.getItems().add("Start");
         choiceBox.getItems().add("End");
         choiceBox.getItems().add("Wall");
+        choiceBox.setValue("Wall");
         
         ChoiceBox mapBox = new ChoiceBox();
         mapBox.getItems().add("user.map");
@@ -68,6 +69,7 @@ public class graphicalUI extends Application{
         mapBox.getItems().add("Moscow_2_512.map");
         mapBox.getItems().add("Berlin_0_512.map");
         mapBox.getItems().add("maze512-16-6.map");
+        mapBox.setValue("user.map");
 
         buttons.getChildren().add(aStarFinder);
         buttons.getChildren().add(dijkstraFinder);
@@ -85,7 +87,7 @@ public class graphicalUI extends Application{
         
         drawer.setFill(Color.WHITE);
         drawer.clearRect(0, 0, 512, 512);
-        //need to separate OnDragged and OnClicked
+        
         drawable.setOnMouseDragged((event) -> {
             double kohtaX = event.getX();
             double kohtaY = event.getY();
@@ -101,7 +103,10 @@ public class graphicalUI extends Application{
             }
 
         });
-        
+        /**
+         *
+         * Allows user to set Start and End nodes on canvas, first checks whether drop down has correct option selected.
+         */
         drawable.setOnMouseClicked((event)->{
             double kohtaX = event.getX();
             double kohtaY = event.getY();
@@ -119,7 +124,7 @@ public class graphicalUI extends Application{
                 drawer.setFill(Color.WHITE);
                 drawer.fillRect(finish.getX(), finish.getY(), 6, 6);
                 finish = new Node((int)kohtaX,(int)kohtaY);
-                drawer.setFill(Color.YELLOW);
+                drawer.setFill(Color.ORCHID);
                 drawer.fillRect((int) kohtaX, (int) kohtaY, 6, 6);
             }
         });
@@ -140,11 +145,15 @@ public class graphicalUI extends Application{
                         drawer.setFill(Color.RED);
                         drawer.fillRect(j, i, 3, 3);
                     } else if(settled[i][j]==true && map[i][j]!='D'){
-                        drawer.setFill(Color.CYAN);
+                        drawer.setFill(Color.web("0x0000FF",0.3));
                         drawer.fillRect(j, i, 1, 1);
                     }
                 }
             }
+            drawer.setFill(Color.GREEN);
+            drawer.fillRect(start.getX(), start.getY(), 6, 6);
+            drawer.setFill(Color.ORCHID);
+            drawer.fillRect(finish.getX(), finish.getY(), 6, 6);
         });
         
         dijkstraFinder.setOnAction((event) -> {
@@ -160,14 +169,18 @@ public class graphicalUI extends Application{
             for (int i = 0; i < 512; i++) {
                 for (int j = 0; j < 512; j++) {
                     if (map[i][j] == 'D') {
-                        drawer.setFill(Color.MAGENTA);
+                        drawer.setFill(Color.FUCHSIA);
                         drawer.fillRect(j, i, 3, 3);
                     } else if (settled[i][j] == true && map[i][j]!='A') {
-                        drawer.setFill(Color.ORANGE);
+                        drawer.setFill(Color.web("#FF7F50",0.3));
                         drawer.fillRect(j, i, 1, 1);
                     }
                 }
             }
+            drawer.setFill(Color.GREEN);
+            drawer.fillRect(start.getX(), start.getY(), 6, 6);
+            drawer.setFill(Color.ORCHID);
+            drawer.fillRect(finish.getX(), finish.getY(), 6, 6);
         });
         
         benchmark.setOnAction((event)->{
@@ -186,6 +199,10 @@ public class graphicalUI extends Application{
                     }
                 }
             }
+            drawer.setFill(Color.GREEN);
+            drawer.fillRect(start.getX(), start.getY(), 6, 6);
+            drawer.setFill(Color.ORCHID);
+            drawer.fillRect(finish.getX(), finish.getY(), 6, 6);
         });
         
         clearField.setOnAction((event)-> {
@@ -193,7 +210,7 @@ public class graphicalUI extends Application{
             drawer.clearRect(0, 0, 520, 520);
             drawer.setFill(Color.GREEN);
             drawer.fillRect(start.getX(), start.getY(), 6, 6);
-            drawer.setFill(Color.YELLOW);
+            drawer.setFill(Color.ORCHID);
             drawer.fillRect(finish.getX(), finish.getY(), 6, 6);
             map = new char[512][512];
         });

@@ -21,7 +21,6 @@ public class DijkstraTest {
     private final double tolerance = 1;
     public DijkstraTest() {
         char[][] map = new char[100][100];
-        algorithm = new Astar(map);
     }
     
     @BeforeClass

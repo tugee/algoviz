@@ -22,7 +22,11 @@ public class Node implements Comparable<Node>{
     private double heuristicDistanceEnd;
     private boolean visited = false;
     Node previous;
-    
+    /**
+     * Node constructor initializes co-ordinates. MinDistance set at -1 for when 
+     *
+     * @author tuukk
+     */
     public Node(int x, int y){
         this.x = x;
         this.y = y;

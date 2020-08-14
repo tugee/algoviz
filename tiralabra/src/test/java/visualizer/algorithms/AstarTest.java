@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import visualizer.datastructures.Node;
 /**
  *
  * @author tuukk
@@ -19,29 +20,13 @@ public class AstarTest {
     Astar algorithm;
     private final double tolerance = 1;
     public AstarTest() {
-        char[][] map = new char[100][100];
-        algorithm = new Astar(map);
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
     }
 
     @Test
-    public void testSomeMethod() {
-        double distance = algorithm.findPath();
+    public void diagonalTest() {
+        char[][] map = new char[100][100];
+        Astar algorithmDiag = new Astar(map,new Node(0,0),new Node(99,99));
+        double distance = algorithmDiag.findPath();
         System.out.println(distance);
         assertEquals(140, distance,tolerance);
     }
@@ -51,7 +36,7 @@ public class AstarTest {
         for(int i = 0; i<2;i++){
             map2[i][1] = '@';
         }
-        Astar algorithmShort= new Astar(map2);
+        Astar algorithmShort= new Astar(map2,new Node(0,0),new Node(2,0));
         double distance = algorithmShort.findPath();
         System.out.println(distance);
         map2 = algorithmShort.finalMap();
@@ -75,7 +60,7 @@ public class AstarTest {
             }
             System.out.println("");
         }
-        Astar algorithmImpossible = new Astar(map2);
+        Astar algorithmImpossible = new Astar(map2,new Node(0,0),new Node(99,99));
         double distance = algorithmImpossible.findPath();
         System.out.println(distance);
         assertEquals(0, distance, tolerance);

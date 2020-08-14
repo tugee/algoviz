@@ -44,7 +44,7 @@ public class LogicTest {
     public void testMapReader() {
         System.out.println("mapReader");
         Logic instance = new Logic();
-        instance.mapReader();
+        instance.mapReader("user.map");
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

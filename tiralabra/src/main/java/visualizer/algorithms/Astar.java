@@ -48,22 +48,31 @@ public class Astar {
     }
      /**
      *
-     * Using Euclidean distance heuristic.Add more heuristic if time permits(?)
-     * @param x
-     * @param y
-     * @param finish
+     * Using Euclidean distance heuristic.
+     * @param x current x coordinate
+     * @param y current y coordinate
+     * @param finish end node class.
      * @return 
      */
     public double heuristicDistanceEnd(int x, int y, Node finish){
         double distance = Math.sqrt(Math.pow(finish.getX()-x,2)+Math.pow(finish.getY()-y,2));
         return distance;
     }
+    /**
+     *
+     * Using Euclidean distance heuristic.Add more heuristic if time permits(?)
+     *
+     * @param x
+     * @param y
+     * @param finish
+     * @return
+     */
     
-    public double findPath(){
+    public double findPath() {
         distanceFromBeginning[Start.getY()][Start.getX()] = 0;
         Start.setMinDistance(0);
         pq.add(Start);
-        while(!pq.isEmpty()){
+        while(!pq.isEmpty()) {
             Node node = pq.poll();
                 // is there an issue here, where the first time you reach the end node, it might not be the shortest?
                 if(node.equals(Finish)){
@@ -72,18 +81,18 @@ public class Astar {
                 }
                 closed[node.getY()][node.getX()] = true;
                 // this will not stop calculation at nodes which are wasted?
-                for(int xDirection : directions ){
+                for(int xDirection : directions) {
                     for(int yDirection : directions) {
-                        int neighbourX = node.getX()-xDirection;
-                        int neighbourY = node.getY()+yDirection;
-                        if(!this.checkValidNode(neighbourX,neighbourY)){
+                        int neighbourX = node.getX() - xDirection;
+                        int neighbourY = node.getY() + yDirection;
+                        if(!this.checkValidNode(neighbourX, neighbourY)){
                             continue;
                         }
                         
                         double currentDistance = distanceFromBeginning[neighbourY][neighbourX];
                         double newDistance = node.getMinDistance() + node.adjacentDistance(neighbourX,neighbourY);
                         
-                        if(newDistance < currentDistance){
+                        if (newDistance < currentDistance){
                             distanceFromBeginning[neighbourY][neighbourX] = newDistance;
                             Node newNode = new Node(neighbourX,neighbourY);
                             newNode.setHeuristicDistanceEnd(heuristicDistanceEnd(neighbourX,neighbourY,Finish));
