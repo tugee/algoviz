@@ -22,7 +22,6 @@ public class Astar {
     private int height;
     private int width;
     private int[] directions = {0,-1,1};
-    private int countSettled = 0;
     /**
      *
      * Initializing variables needed for A* to run.
@@ -71,7 +70,6 @@ public class Astar {
                     markPath(node);
                     return distanceFromBeginning[node.getY()][node.getX()];
                 }
-                countSettled++;
                 closed[node.getY()][node.getX()] = true;
                 // this will not stop calculation at nodes which are wasted?
                 for(int xDirection : directions ){
@@ -114,9 +112,21 @@ public class Astar {
     }
     private void markPath(Node previous) {
         if(previous.getPrevious()!=null){
-            map[previous.getY()][previous.getX()] = 'P';
+            map[previous.getY()][previous.getX()] = 'A';
             markPath(previous.getPrevious());
         }
+    }
+    
+    public int getCount() {
+        int finalcount=0;
+        for(int i = 0; i<512;i++){
+            for(int j = 0; j<512;j++){
+                if(closed[i][j]==true){
+                    finalcount++;
+                }
+            }
+        }
+        return finalcount;
     }
     
     public boolean[][] getClosed(){

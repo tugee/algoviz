@@ -12,7 +12,10 @@ import visualizer.datastructures.Node;
  * @author tuukk
  */
 public class Dijkstra {
-    
+     /**
+     *
+     * Initializing variables needed for Dijkstra to run.
+     */
     private Node Start;
     private Node Finish;
     private char[][] map;
@@ -22,11 +25,7 @@ public class Dijkstra {
     private int height;
     private int width;
     private int[] directions = {0,-1,1};
-    private int countSettled = 0;
-    /**
-     *
-     * Initializing variables needed for Dijkstra to run.
-     */
+
     
     public Dijkstra(char[][] map, Node start, Node finish){
         this.height = map.length;
@@ -74,7 +73,6 @@ public class Dijkstra {
                 }
                 
                 settled[node.getY()][node.getX()] = true;
-                countSettled++;
                 // this will not stop calculation at nodes which are wasted?
                 for(int xDirection : directions ){
                     for(int yDirection : directions) {
@@ -89,7 +87,7 @@ public class Dijkstra {
                         double newDistance = node.getMinDistance() + node.adjacentDistance(neighbourX,neighbourY);
                         
                         if(newDistance < currentDistance){
-                            distanceFromBeginning[node.getY()][node.getX()] = newDistance;
+                            distanceFromBeginning[neighbourY][neighbourX] = newDistance;
                             Node newNode = new Node(neighbourX,neighbourY);
                             newNode.setMinDistance(newDistance);
                             newNode.setPrevious(node);
@@ -120,10 +118,22 @@ public class Dijkstra {
         return settled;
     }
     
+    public int getCount() {
+        int finalcount = 0;
+        for (int i = 0; i < 512; i++) {
+            for (int j = 0; j < 512; j++) {
+                if (settled[i][j] == true) {
+                    finalcount++;
+                }
+            }
+        }
+        return finalcount;
+    }
+    
 
     private void markPath(Node previous) {
         if(previous.getPrevious()!=null){
-            map[previous.getY()][previous.getX()] = 'P';
+            map[previous.getY()][previous.getX()] = 'D';
             markPath(previous.getPrevious());
         }
     }

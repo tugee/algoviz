@@ -5,12 +5,32 @@
  */
 package visualizer.logic;
 
+import java.nio.file.Paths;
+import java.util.Scanner;
+
 /**
  *
  * @author tuukk
  */
-public class Logic throws FileNotFoundException, IOException{
-    public void mapReader(){
-        
+public class Logic{
+    
+    public Logic(){
+    }
+    public char[][] mapReader(String filename){
+        try (Scanner reader = new Scanner(Paths.get("map/"+filename))) {
+            char[][] map = new char[512][512];
+            int j = 0;
+            while (reader.hasNextLine()) {
+                String rivi = reader.nextLine();
+                for(int i = 0;i<512;i++){
+                    map[j][i]=rivi.charAt(i);
+                }
+                j++;
+            }
+            return map;
+        } catch (Exception e) {
+            System.out.println("Virhe: " + e.getMessage());
+        }
+        return null;
     }
 }
