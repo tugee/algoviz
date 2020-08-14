@@ -28,7 +28,7 @@ public class Dijkstra {
      * Initializing variables needed for Dijkstra to run.
      */
     
-    public Dijkstra(char[][] map){
+    public Dijkstra(char[][] map, Node start, Node finish){
         this.height = map.length;
         this.width = map[0].length;
         this.pq = new PriorityQueue<Node>(height*width);
@@ -36,8 +36,8 @@ public class Dijkstra {
         this.distanceFromBeginning = new double[height][width];
         this.settled = new boolean[height][width];
         
-        this.Start = new Node(0,0);
-        this.Finish = new Node(height-1,width-1);
+        this.Start = start;
+        this.Finish = finish;
         
         for(int i = 0; i<height;i++){
             for(int j = 0; j<width;j++){
@@ -109,7 +109,17 @@ public class Dijkstra {
             return true;
         }
     }
-
+    
+    public char[][] finalMap(){
+        map[Start.getY()][Start.getX()] = 'S';
+        map[Finish.getY()][Finish.getX()] = 'F';
+        return map;
+    }
+    
+    public boolean[][] getClosed(){
+        return settled;
+    }
+    
 
     private void markPath(Node previous) {
         if(previous.getPrevious()!=null){

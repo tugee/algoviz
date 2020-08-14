@@ -29,7 +29,7 @@ public class Astar {
      * @param map
      */
     
-    public Astar(char[][] map){
+    public Astar(char[][] map, Node start, Node finish){
         this.height = map.length;
         this.width = map[0].length;
         this.pq = new PriorityQueue<Node>(height*width);
@@ -37,8 +37,8 @@ public class Astar {
         this.distanceFromBeginning = new double[height][width];
         this.closed = new boolean[height][width];
         
-        this.Start = new Node(0,0);
-        this.Finish = new Node(height-1,width-1);
+        this.Start = start;
+        this.Finish = finish;
         
         for(int i = 0; i<height;i++){
             for(int j = 0; j<width;j++){
