@@ -5,8 +5,11 @@ Coded in Java
 ## Documentation
 - [Specification document](documentation/specifications.md)
 - [Implementation](documentation/implementation.md)
+- [Testing](documentation/testing.md)
+- [Manual](documentation/guide.md)
 
 ## Weekly reports
 - [Week 1](documentation/weeklyreports/week1.md)
 - [Week 2](documentation/weeklyreports/week2.md)
 - [Week 3](documentation/weeklyreports/week3.md)
+- [Week 4](documentation/weeklyreports/week4.md)
