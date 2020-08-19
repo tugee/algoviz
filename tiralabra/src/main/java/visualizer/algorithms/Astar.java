@@ -119,6 +119,7 @@ public class Astar {
         map[Finish.getY()][Finish.getX()] = 'F';
         return map;
     }
+    
     private void markPath(Node previous) {
         if(previous.getPrevious()!=null){
             map[previous.getY()][previous.getX()] = 'A';
