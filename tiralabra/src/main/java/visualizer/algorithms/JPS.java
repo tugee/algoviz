@@ -190,7 +190,13 @@ public class JPS {
         }
         return neighbours;
     }
-    
+    /**
+     * 
+     * @param initial
+     * @param dx
+     * @param dy
+     * @return 
+     */
     public Node jump(Node initial, int dx, int dy){
         int candidateX = initial.getX()+dx;
         int candidateY = initial.getY()+dy;
@@ -220,29 +226,35 @@ public class JPS {
         }
         return jump(new Node(candidateX,candidateY),dx,dy);
     }
-    
+    /**
+     * Checks for forced neighbours of initial node.
+     * @param initial node whose forced neighbours we check
+     * @param dx movement direction in the x-axis
+     * @param dy y-axis movement
+     * @return true if algorithm needs to add new jump point because of forced neighbours, false o/w
+     */
     public boolean forcedNeighbourCheck(Node initial, int dx, int dy){
         if(dx!=0&& dy!=0){
-            if(checkBlocked(initial.getX(),initial.getY(),-dx,0)){
+            if(checkBlocked(initial.getX(),initial.getY(),-dx,0) && checkValidNode(initial.getX()-dx,initial.getY()+dy)){
                 return true;
             }
-            if (checkBlocked(initial.getX(), initial.getY(), 0, -dy)) {
+            if (checkBlocked(initial.getX(), initial.getY(), 0, -dy) && checkValidNode(initial.getX()+dx,initial.getY()-dy)) {
                 return true;
             }
         }
         if(dx!=0){
-            if (checkBlocked(initial.getX(), initial.getY(), 0, 1)) {
+            if (checkBlocked(initial.getX(), initial.getY(), 0, 1) && checkValidNode(initial.getX()+dx,initial.getY()+1)) {
                 return true;
             }
-            if (checkBlocked(initial.getX(), initial.getY(), 0, -1)) {
+            if (checkBlocked(initial.getX(), initial.getY(), 0, -1) && checkValidNode(initial.getX()+dx,initial.getY()-1)) {
                 return true;
             }
         }
         if(dy!=0){
-            if (checkBlocked(initial.getX(), initial.getY(), -1, 0)) {
+            if (checkBlocked(initial.getX(), initial.getY(), -1, 0) && checkValidNode(initial.getX()-1,initial.getY()+dy)) {
                 return true;
             }
-            if (checkBlocked(initial.getX(), initial.getY(), 1, 0)) {
+            if (checkBlocked(initial.getX(), initial.getY(), 1, 0) && checkValidNode(initial.getX()+1,initial.getY()+dy)) {
                 return true;
             }
         }

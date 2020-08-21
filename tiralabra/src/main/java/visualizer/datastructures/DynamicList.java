@@ -10,5 +10,27 @@ package visualizer.datastructures;
  * @author tuukk
  */
 public class DynamicList {
+    Node[] nodeList = new Node[10];
+    int values = 0;
+    
+    public void add(Node newNode){
+        if(nodeList.length==values){
+            this.grow();
+        }
+        nodeList[values] = newNode;
+        
+    }
+    
+    public void remove(){
+        
+    }
+    
+    public void grow(){
+        Node[] nodeListNew = new Node[nodeList.length*2];
+        for(int i = 0; i < nodeList.length;i++){
+            nodeListNew[i]=nodeList[i];
+        }
+        nodeList = nodeListNew;
+    }
     
 }
