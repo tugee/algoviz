@@ -65,6 +65,29 @@ public class Node implements Comparable<Node>{
     public void setPrevious(Node previous){
         this.previous = previous;
     }
+    
+    public int[] parentDirection(){
+        int[] directions = new int[2];
+        
+        Node parent = getPrevious();
+        
+        int dx = x-parent.getX();
+        
+        if(dx!=0){
+            dx = dx / Math.abs(dx);   
+        }
+        int dy = y-parent.getY();
+        
+        if(dy!=0){
+            dy = dy / Math.abs(dy);
+        }
+        
+        
+        directions[0]=dx;
+        directions[1]=dy;
+        
+        return directions;
+    }
 
     public Node getPrevious() {
         return previous;

@@ -148,7 +148,7 @@ public class graphicalUI extends Application{
                     if(map[i][j]=='A'){
                         drawer.setFill(Color.RED);
                         drawer.fillRect(j, i, 3, 3);
-                    } else if(settled[i][j]==true && map[i][j]!='D'){
+                    } else if(settled[i][j]==true && map[i][j]!='D' && map[i][j]!='J'){
                         drawer.setFill(Color.web("0x0000FF",0.3));
                         drawer.fillRect(j, i, 1, 1);
                     }
@@ -175,7 +175,7 @@ public class graphicalUI extends Application{
                     if (map[i][j] == 'D') {
                         drawer.setFill(Color.FUCHSIA);
                         drawer.fillRect(j, i, 3, 3);
-                    } else if (settled[i][j] == true && map[i][j]!='A') {
+                    } else if (settled[i][j] == true && map[i][j]!='A' && map[i][j]!='J') {
                         drawer.setFill(Color.web("#FF7F50",0.3));
                         drawer.fillRect(j, i, 1, 1);
                     }
@@ -197,14 +197,15 @@ public class graphicalUI extends Application{
             timeTaken.setText("Took: " + ((end - now) / 1000000) + " ms");
             pathLength.setText("Path length: " + pathlength);
             boolean[][] settled = algorithm.getClosed();
+            boolean[][] considered = algorithm.getConsidered();
             for (int i = 0; i < 512; i++) {
                 for (int j = 0; j < 512; j++) {
                     if (map[i][j] == 'J') {
                         drawer.setFill(Color.GREEN);
-                        drawer.fillRect(j, i, 3, 3);
-                    } else if (settled[i][j] == true && map[i][j] != 'D') {
+                        drawer.fillRect(j, i, 10, 10);
+                    } else if ((considered[i][j]==true || settled[i][j] == true) && map[i][j] != 'D' && map[i][j]!='A') {
                         drawer.setFill(Color.web("0x0000FF", 0.3));
-                        drawer.fillRect(j, i, 1, 1);
+                        drawer.fillRect(j, i, 3, 3);
                     }
                 }
             }
