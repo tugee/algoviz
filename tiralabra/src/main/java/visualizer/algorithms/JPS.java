@@ -7,6 +7,7 @@ package visualizer.algorithms;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 import visualizer.datastructures.Node;
+import java.util.Set;
 /**
  *
  * @author tuukk
@@ -18,6 +19,7 @@ public class JPS {
     private double[][] distanceFromBeginning;
     private boolean[][] closed;
     private PriorityQueue<Node> pq;
+    private Set<Node> closedSet;
     private int height;
     private int width;
     private int[] directions = {0, -1, 1};
@@ -56,8 +58,25 @@ public class JPS {
                 markPath(node);
                 return distanceFromBeginning[node.getY()][node.getX()];
             }
+            if(closed[node.getY()][node.getX()] == true){
+                continue;
+            }
             closed[node.getY()][node.getX()] = true;
-            identifySuccessors(node);
+            for(Node next : identifySuccessors(node)){
+                int neighbourY = next.getY();
+                int neighbourX = next.getX();
+                double currentDistance = distanceFromBeginning[neighbourY][neighbourX];
+                double newDistance = node.getMinDistance() + heuristicDistanceEnd(neighbourX,neighbourY,next.getPrevious());
+
+                if (newDistance < currentDistance) {
+                    distanceFromBeginning[neighbourY][neighbourX] = newDistance;
+                    Node newNode = new Node(neighbourX, neighbourY);
+                    newNode.setHeuristicDistanceEnd(heuristicDistanceEnd(neighbourX, neighbourY, Finish));
+                    newNode.setMinDistance(newDistance);
+                    newNode.setPrevious(node);
+                    pq.add(newNode);
+                }
+            }
         }
         return 0;
     }
@@ -71,6 +90,7 @@ public class JPS {
                 }
                 Node jumpPoint = jump(current,dx,dy);
                 if(jumpPoint!=null){
+                    jumpPoint.setPrevious(current);
                     successors.add(jumpPoint);
                 }
             }
@@ -81,13 +101,17 @@ public class JPS {
     public Node jump(Node initial, int dx, int dy){
         int candidateX = initial.getX()+dx;
         int candidateY = initial.getY()+dy;
+        
         if(!checkValidNode(candidateX,candidateY)){
             return null;
         }
+        
         if(candidateX==Finish.getX()&&candidateY==Finish.getY()){
             return Finish;
         }
+        
         Node diagonalForced = new Node(candidateX, candidateY);
+        
         if(dx!=0&&dy!=0){
             if(forcedNeighbourCheck(initial,dx,dy)){
                 return diagonalForced;

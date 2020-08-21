@@ -23,6 +23,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import visualizer.algorithms.Astar;
 import visualizer.algorithms.Dijkstra;
+import visualizer.algorithms.JPS;
 import visualizer.datastructures.Node;
 import visualizer.logic.Logic;
 
@@ -51,6 +52,8 @@ public class graphicalUI extends Application{
         VBox buttons = new VBox();
         Button aStarFinder = new Button("Find path (A*)");
         Button dijkstraFinder = new Button("Find path (Dijkstra)");
+        Button jpsFinder = new Button("Find path (JPS)");
+        
         Button clearField = new Button("Clear field");
         Button benchmark = new Button("Load map");
         ChoiceBox choiceBox = new ChoiceBox();
@@ -73,6 +76,7 @@ public class graphicalUI extends Application{
 
         buttons.getChildren().add(aStarFinder);
         buttons.getChildren().add(dijkstraFinder);
+        buttons.getChildren().add(jpsFinder);
         buttons.getChildren().add(clearField);
         buttons.getChildren().add(choiceBox);
         buttons.getChildren().add(mapBox);
@@ -173,6 +177,33 @@ public class graphicalUI extends Application{
                         drawer.fillRect(j, i, 3, 3);
                     } else if (settled[i][j] == true && map[i][j]!='A') {
                         drawer.setFill(Color.web("#FF7F50",0.3));
+                        drawer.fillRect(j, i, 1, 1);
+                    }
+                }
+            }
+            drawer.setFill(Color.GREEN);
+            drawer.fillRect(start.getX(), start.getY(), 6, 6);
+            drawer.setFill(Color.ORCHID);
+            drawer.fillRect(finish.getX(), finish.getY(), 6, 6);
+        });
+        
+        jpsFinder.setOnAction((event) -> {
+            JPS algorithm = new JPS(map, start, finish);
+            long now = System.nanoTime();
+            double pathlength = algorithm.findPath();
+            long end = System.nanoTime();
+            map = algorithm.finalMap();
+            settledLabel.setText("Nodes accessed: " + algorithm.getCount());
+            timeTaken.setText("Took: " + ((end - now) / 1000000) + " ms");
+            pathLength.setText("Path length: " + pathlength);
+            boolean[][] settled = algorithm.getClosed();
+            for (int i = 0; i < 512; i++) {
+                for (int j = 0; j < 512; j++) {
+                    if (map[i][j] == 'J') {
+                        drawer.setFill(Color.GREEN);
+                        drawer.fillRect(j, i, 3, 3);
+                    } else if (settled[i][j] == true && map[i][j] != 'D') {
+                        drawer.setFill(Color.web("0x0000FF", 0.3));
                         drawer.fillRect(j, i, 1, 1);
                     }
                 }
