@@ -203,9 +203,12 @@ public class graphicalUI extends Application{
                     if (map[i][j] == 'J') {
                         drawer.setFill(Color.GREEN);
                         drawer.fillRect(j, i, 10, 10);
-                    } else if ((considered[i][j]==true || settled[i][j] == true) && map[i][j] != 'D' && map[i][j]!='A') {
-                        drawer.setFill(Color.web("0x0000FF", 0.3));
+                    } else if (settled[i][j] == true && map[i][j] != 'D' && map[i][j]!='A') {
+                        drawer.setFill(Color.web("0x0000FF", 0.7));
                         drawer.fillRect(j, i, 3, 3);
+                    } else if(considered[i][j]==true) {
+                        drawer.setFill(Color.web("#808080", 0.1));
+                        drawer.fillRect(j, i, 1, 1);
                     }
                 }
             }

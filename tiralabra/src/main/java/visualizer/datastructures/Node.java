@@ -69,7 +69,7 @@ public class Node implements Comparable<Node>{
     public int[] parentDirection(){
         int[] directions = new int[2];
         
-        Node parent = getPrevious();
+        Node parent = this.getPrevious();
         
         int dx = x-parent.getX();
         
