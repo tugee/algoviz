@@ -107,6 +107,9 @@ public class JPS {
                 int x = current.getX();
                 int dirY = neighbour.getY()-current.getY();
                 int dirX = neighbour.getX()-current.getX();
+                if(dirX == 0 & dirY == 0){
+                    continue;
+                }
                 System.out.println(dirX + "direction succession" + dirY);
 //                System.out.println("neighbour x "+neighbour.getX()+" "+neighbour.getY());
 //                System.out.println(dir[0]+" "+dir[1]);
@@ -232,17 +235,7 @@ public class JPS {
                 return diagonalForced;
             }
         } else {
-            if(dx!=0){
-                if (!checkValidNode(initial.getX(), initial.getY() + 1) && checkValidNode(initial.getX() + dx, initial.getY() + 1)) {
-                    System.out.println((initial.getX() + dx) + " forced neighbour " + (initial.getY() + 1));
-                    return new Node(initial.getX(),initial.getY());
-                }
-                if (!checkValidNode(initial.getX(), initial.getY() - 1) && checkValidNode(initial.getX() + dx, initial.getY() - 1)) {
-                    System.out.println((initial.getX() + dx) + " forced neighbour " + (initial.getY() - 1));
-                    return new Node(initial.getX(),initial.getY());
-                }
-            }
-            else if(forcedNeighbourCheck(initial,dx,dy)){
+            if(forcedNeighbourCheck(initial,dx,dy)){
                 return initial;
             }
         }
