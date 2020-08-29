@@ -1,7 +1,7 @@
 # Week 5
 
 ## What did I accomplish?
-I relentlessly tried to debug my JPS implementation which suffered from pruning neighbours correctly and getting stuck in infinite loops. Unfortunately it does not work in all instances yet. Unfortunately this meant I was unable to progress on any other parts of the project.
+I relentlessly tried to debug my JPS implementation which suffered from pruning neighbours incorrectly and getting stuck in infinite loops. Unfortunately it does not work in all instances yet. Unfortunately this meant I was unable to progress on any other parts of the project.
 
 ## What did I learn this week?
 Debugging efficiently.
