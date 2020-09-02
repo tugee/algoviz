@@ -6,6 +6,7 @@
 package visualizer.algorithms;
 import java.util.*; 
 import visualizer.datastructures.Node;
+import visualizer.datastructures.MinHeap;
 
 /**
  *
@@ -21,7 +22,7 @@ public class Dijkstra {
     private char[][] map;
     private double[][] distanceFromBeginning;
     private boolean[][] settled;
-    private PriorityQueue<Node> pq;
+    private MinHeap pq;
     private int height;
     private int width;
     private int[] directions = {0,-1,1};
@@ -30,7 +31,7 @@ public class Dijkstra {
     public Dijkstra(char[][] map, Node start, Node finish){
         this.height = map.length;
         this.width = map[0].length;
-        this.pq = new PriorityQueue<Node>(height*width);
+        this.pq = new MinHeap(height*width);
         this.map = map;
         this.distanceFromBeginning = new double[height][width];
         this.settled = new boolean[height][width];

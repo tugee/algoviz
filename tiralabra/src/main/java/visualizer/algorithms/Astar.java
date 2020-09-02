@@ -7,6 +7,7 @@ package visualizer.algorithms;
 
 import java.util.PriorityQueue;
 import visualizer.datastructures.Node;
+import visualizer.datastructures.MinHeap;
 
 /**
  *
@@ -18,7 +19,7 @@ public class Astar {
     private char[][] map;
     private double[][] distanceFromBeginning;
     private boolean[][] closed;
-    private PriorityQueue<Node> pq;
+    private MinHeap pq;
     private int height;
     private int width;
     private int[] directions = {0,-1,1};
@@ -31,7 +32,7 @@ public class Astar {
     public Astar(char[][] map, Node start, Node finish){
         this.height = map.length;
         this.width = map[0].length;
-        this.pq = new PriorityQueue<Node>(height*width);
+        this.pq = new MinHeap(height*width);
         this.map = map;
         this.distanceFromBeginning = new double[height][width];
         this.closed = new boolean[height][width];

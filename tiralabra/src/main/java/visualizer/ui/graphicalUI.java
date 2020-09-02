@@ -140,7 +140,7 @@ public class graphicalUI extends Application{
             long end = System.nanoTime();
             map = algorithm.finalMap();
             settledLabel.setText("Nodes accessed: " + algorithm.getCount());
-            timeTaken.setText("Took: "+((end-now)/1000000)+" ms");
+            timeTaken.setText("Took: "+((float)(end-now)/1000000)+" ms");
             pathLength.setText("Path length: " + pathlength);
             boolean[][] settled = algorithm.getClosed();
             for(int i = 0; i<512;i++){
@@ -166,7 +166,7 @@ public class graphicalUI extends Application{
             double pathlength = algorithm.findPath();
             long end = System.nanoTime();
             settledLabel.setText("Nodes accessed: " + algorithm.getCount());
-            timeTaken.setText("Took: " + ((end - now) / 1000000) + " ms");
+            timeTaken.setText("Took: " + ((float)(end - now) / 1000000) + " ms");
             pathLength.setText("Path length: "+ pathlength);
             map = algorithm.finalMap();
             boolean[][] settled = algorithm.getClosed();
@@ -194,7 +194,7 @@ public class graphicalUI extends Application{
             long end = System.nanoTime();
             map = algorithm.finalMap();
             settledLabel.setText("Nodes accessed: " + algorithm.getCount());
-            timeTaken.setText("Took: " + ((end - now) / 1000000) + " ms");
+            timeTaken.setText("Took: " + ((float)(end - now) / 1000000) + " ms");
             pathLength.setText("Path length: " + pathlength);
             boolean[][] settled = algorithm.getClosed();
             boolean[][] considered = algorithm.getConsidered();
@@ -202,7 +202,7 @@ public class graphicalUI extends Application{
                 for (int j = 0; j < 512; j++) {
                     if (map[i][j] == 'J') {
                         drawer.setFill(Color.GREEN);
-                        drawer.fillRect(j, i, 10, 10);
+                        drawer.fillRect(j, i, 3, 3);
                     } else if (settled[i][j] == true && map[i][j] != 'D' && map[i][j]!='A') {
                         drawer.setFill(Color.web("0x0000FF", 1));
                         drawer.fillRect(j, i, 2, 2);

@@ -31,7 +31,7 @@ public class Node implements Comparable<Node>{
         this.x = x;
         this.y = y;
         this.MinDistance = -1;
-        this.heuristicDistanceEnd = 0;
+        this.heuristicDistanceEnd = -1;
     }
 
     public int getX() {
