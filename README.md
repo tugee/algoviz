@@ -14,3 +14,4 @@ Coded in Java
 - [Week 3](documentation/weeklyreports/week3.md)
 - [Week 4](documentation/weeklyreports/week4.md)
 - [Week 5](documentation/weeklyreports/week5.md)
+- [Week 6](documentation/weeklyreports/week6.md)
