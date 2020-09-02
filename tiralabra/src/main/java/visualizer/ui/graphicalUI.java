@@ -205,7 +205,7 @@ public class graphicalUI extends Application{
                         drawer.fillRect(j, i, 10, 10);
                     } else if (settled[i][j] == true && map[i][j] != 'D' && map[i][j]!='A') {
                         drawer.setFill(Color.web("0x0000FF", 1));
-                        drawer.fillRect(j, i, 1, 1);
+                        drawer.fillRect(j, i, 2, 2);
                     } else if(considered[i][j]==true) {
                         drawer.setFill(Color.web("#808080", 0.1));
                         drawer.fillRect(j, i, 1, 1);

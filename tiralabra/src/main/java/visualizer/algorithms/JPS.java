@@ -59,15 +59,16 @@ public class JPS {
         System.out.println(Start.getX()+" "+Start.getY());
         while(!pq.isEmpty()) {
             Node node = pq.poll();
-            System.out.println("Minheap is currently processing "+node.getX() + " " + node.getY());
+//            System.out.println("Minheap is currently processing "+node.getX() + " " + node.getY());
             if (node.equals(Finish)) {
-                System.out.println("HELLO!");
+//                System.out.println("HELLO!");
                 markPath(node);
                 return distanceFromBeginning[node.getY()][node.getX()];
             }
 
             closed[node.getY()][node.getX()] = true;
-            for(Node next : identifySuccessors(node)){
+            ArrayList<Node> successors = identifySuccessors(node);
+            for(Node next : successors){
                 if(next.equals(Finish)){
                     System.out.println("HELLO!");
                 }
@@ -79,10 +80,10 @@ public class JPS {
                 double newDistance = node.getMinDistance() + heuristicDistanceEnd(neighbourX,neighbourY,node);
 
                 if (newDistance <= currentDistance) {
-                    System.out.println("Added");
+//                    System.out.println("Added");
                     distanceFromBeginning[neighbourY][neighbourX] = newDistance;
                     Node newNode = new Node(neighbourX, neighbourY);
-                    System.out.println(neighbourX + " " + neighbourY);
+//                    System.out.println(neighbourX + " new Neighbour " + neighbourY);
                     newNode.setHeuristicDistanceEnd(heuristicDistanceEnd(neighbourX, neighbourY, Finish));
                     newNode.setMinDistance(newDistance);
                     newNode.setPrevious(node);
@@ -97,12 +98,9 @@ public class JPS {
     public ArrayList<Node> identifySuccessors(Node current){
         ArrayList<Node> successors = new ArrayList<>();
         ArrayList<Node> neighbours = identifyNeighbours(current);
-        System.out.println("neighbour count " + neighbours.size());
-        for(Node neighbour: neighbours){
-            System.out.println(neighbour.getX()+" neighbour XY "+ neighbour.getY());
-        }
+//        System.out.println("neighbour count " + neighbours.size());
             for(Node neighbour : neighbours){
-                
+//                System.out.println(neighbour.getX() + " neighbour XY " + neighbour.getY());
                 int y = current.getY();
                 int x = current.getX();
                 int dirY = neighbour.getY()-current.getY();
@@ -110,24 +108,32 @@ public class JPS {
                 if(dirX == 0 & dirY == 0){
                     continue;
                 }
-                System.out.println(dirX + "direction succession" + dirY);
+//                System.out.println(dirX + "direction succession" + dirY);
 //                System.out.println("neighbour x "+neighbour.getX()+" "+neighbour.getY());
 //                System.out.println(dir[0]+" "+dir[1]);
                 Node jumpPoint = jump(current,dirX,dirY);
                 if(jumpPoint!=null){
-                    System.out.println("reached");
-                    System.out.println("jump point added: "+ jumpPoint.getX() + " " + jumpPoint.getY());
+                    if(closed[jumpPoint.getY()][jumpPoint.getX()]==true){
+                        continue;
+                    }
+//                    System.out.println("reached");
+//                    System.out.println("jump point added: "+ jumpPoint.getX() + " " + jumpPoint.getY());
                     successors.add(jumpPoint);
                 }
             }
-            System.out.println("Returning " + successors.size());
+//            System.out.println("Returning " + successors.size());
         return successors;
     }
     
+    /**
+     * 
+     * @param current The node which neighbours we want to identify
+     * @return list of nodes, which are our neighbours
+     */
     public ArrayList<Node> identifyNeighbours(Node current){
         ArrayList<Node> neighbours = new ArrayList<>();
         if(current.getPrevious()==null){
-            System.out.println("We havereached a point where we need to generate new leads!");
+//            System.out.println("We havereached a point where we need to generate new leads!");
             for(int i = -1; i<2;i++){
                 for(int j = -1; j<2; j++){
                     if(i==0&&j==0){
@@ -140,14 +146,14 @@ public class JPS {
                 }
             }
         } else {
-            System.out.println("Desparately trying to prune something");
+//            System.out.println("Desparately trying to prune something");
             int[] direction = current.parentDirection();
-            
+//            System.out.println(current.getPrevious().getX() + " parent " + current.getPrevious().getY());
             int dx = direction[0];
             int dy = direction[1];
-            System.out.println(dx+" "+ dy);
+//            System.out.println(dx+" "+ dy);
             if(dx!=0 && dy!=0){
-                System.out.println("diagonal pruning");
+//                System.out.println("diagonal pruning");
                     if(checkValidNode(current.getX()+dx,current.getY())){
                         Node neighbourNode = new Node(current.getX() + dx, current.getY());
                         neighbours.add(neighbourNode);
@@ -156,11 +162,11 @@ public class JPS {
                         Node neighbourNode = new Node(current.getX(), current.getY() + dy);
                         neighbours.add(neighbourNode);
                     }
-                    if (!checkValidNode(current.getX() - dx, current.getY()) && checkValidNode(current.getX() - dx, current.getY() + dy)) {
+                    if (!checkValidNode(current.getX() - dx, current.getY())) {
                         Node neighbourNode = new Node(current.getX() - dx, current.getY() + dy);
                         neighbours.add(neighbourNode);
                     }
-                    if(!checkValidNode(current.getX(),current.getY() - dy) && checkValidNode(current.getX() + dx, current.getY() - dy)){
+                    if(!checkValidNode(current.getX(),current.getY() - dy)){
                         Node neighbourNode = new Node(current.getX() + dx, current.getY() - dy);
                         neighbours.add(neighbourNode);
                     }
@@ -169,8 +175,8 @@ public class JPS {
                         neighbours.add(neighbourNode);   
                     }
             } else {
-                if (dy == 0) {
-                    System.out.println("horizontal pruning");
+                if (dx != 0) {
+//                    System.out.println("horizontal pruning");
                     if (!checkValidNode(current.getX(), current.getY() + 1)) {
                         Node neighbourNode = new Node(current.getX() + dx, current.getY() + 1);
                         neighbours.add(neighbourNode);
@@ -184,7 +190,7 @@ public class JPS {
                         neighbours.add(neighbourNode);
                     }
                 } else {
-                    System.out.println("vertical pruning");
+//                    System.out.println("vertical pruning");
                     if (!checkValidNode(current.getX() + 1, current.getY())) {
                         Node neighbourNode = new Node(current.getX() + 1, current.getY() + dy);
                         neighbours.add(neighbourNode);
@@ -210,33 +216,34 @@ public class JPS {
      * @return 
      */
     public Node jump(Node initial, int dx, int dy){
-        int candidateX = initial.getX()+dx;
-        int candidateY = initial.getY()+dy;
-        System.out.println(dx+" distance "+dy);
-        System.out.println(candidateX+" jumpcandidate "+candidateY);
-        Node diagonalForced = new Node(candidateX, candidateY);
-        if(!checkValidNode(candidateX,candidateY)){
-            System.out.println("Problems!");
+        int x = initial.getX();
+        int y = initial.getY();
+//        System.out.println(dx+" distance "+dy);
+//        System.out.println(x+" jumpcandidate "+y);
+        Node diagonalForced = new Node(x+dx, y+dy);
+        
+        if(!checkValidNode(x+dx,y+dy)){
+//            System.out.println("Problems!");
             return null;
         }
-        considered[candidateY][candidateX] = true;
-        if(candidateX==Finish.getX()&&candidateY==Finish.getY()){
-            System.out.println(initial.getX()+" asd "+initial.getY());
-            System.out.println("REACHED" +candidateX + candidateY);
-            System.out.println(diagonalForced.getX()+" "+diagonalForced.getY());
-            return diagonalForced;
+        considered[y][x] = true;
+        if(diagonalForced.getX()==Finish.getX()&&diagonalForced.getY()==Finish.getY()){
+//            System.out.println(initial.getX()+" asd "+initial.getY());
+//            System.out.println("REACHED" +x + y);
+//            System.out.println(diagonalForced.getX()+" "+diagonalForced.getY());
+            return Finish;
         }
    
         if(dx!=0&&dy!=0){
-            if(forcedNeighbourCheck(initial,dx,dy)){
+            if(forcedNeighbourCheck(diagonalForced,dx,dy)){
                 return diagonalForced;
             }
             if(jump(diagonalForced,dx,0)!=null||jump(diagonalForced,0,dy)!=null){
                 return diagonalForced;
             }
         } else {
-            if(forcedNeighbourCheck(initial,dx,dy)){
-                return initial;
+            if(forcedNeighbourCheck(diagonalForced,dx,dy)){
+                return diagonalForced;
             }
         }
         return jump(diagonalForced,dx,dy);
@@ -252,33 +259,33 @@ public class JPS {
         //diagonal forced neighbour check
         if(dx!=0&& dy!=0){
             if(!checkValidNode(initial.getX() - dx,initial.getY()) && checkValidNode(initial.getX()-dx,initial.getY()+dy)){
-                System.out.println((initial.getX()-dx)+" forced neighbour " + (initial.getY()+dy));
+//                System.out.println((initial.getX()-dx)+" forced neighbour " + (initial.getY()+dy));
                 return true;
             }
             if(!checkValidNode(initial.getX(), initial.getY() - dy) && checkValidNode(initial.getX()+dx,initial.getY()-dy)) {
-                System.out.println((initial.getX() + dx) + " forced neighbour " + (initial.getY() - dy));
+//                System.out.println((initial.getX() + dx) + " forced neighbour " + (initial.getY() - dy));
                 return true;
             }
         }
         //horizontal forced neighbour check
         else if(dx!=0){
             if (!checkValidNode(initial.getX(), initial.getY() + 1) && checkValidNode(initial.getX()+dx,initial.getY()+1)) {
-                System.out.println((initial.getX() + dx) + " forced neighbour " + (initial.getY() + 1));
+//                System.out.println((initial.getX() + dx) + " forced neighbour " + (initial.getY() + 1));
                 return true;
             }
             if (!checkValidNode(initial.getX(), initial.getY() - 1) && checkValidNode(initial.getX()+dx,initial.getY()-1)) {
-                System.out.println((initial.getX() + dx) + " forced neighbour " + (initial.getY() - 1));
+//                System.out.println((initial.getX() + dx) + " forced neighbour " + (initial.getY() - 1));
                 return true;
             }
         }
         // vertical forced neighbour check
         else if(dy!=0){
-            if (!checkValidNode(initial.getX() - 1, initial.getY()) && checkValidNode(initial.getX()-1,initial.getY()+dy)) {
-                System.out.println((initial.getX() - 1) + " forced neighbour " + (initial.getY() + dy));
+            if (!checkValidNode(initial.getX() - 1, initial.getY()) && checkValidNode(initial.getX()+1,initial.getY()+dy)) {
+//                System.out.println((initial.getX() - 1) + " forced neighbour " + (initial.getY() + dy));
                 return true;
             }
-            if (!checkValidNode(initial.getX() + 1, initial.getY()) && checkValidNode(initial.getX()+1,initial.getY()+dy)) {
-                System.out.println((initial.getX() + 1) + " forced neighbour " + (initial.getY() + dy));
+            if (!checkValidNode(initial.getX() + 1, initial.getY()) && checkValidNode(initial.getX()-1,initial.getY()+dy)) {
+//                System.out.println((initial.getX() + 1) + " forced neighbour " + (initial.getY() + dy));
                 return true;
             }
         }
