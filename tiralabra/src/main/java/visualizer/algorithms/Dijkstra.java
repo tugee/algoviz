@@ -25,6 +25,7 @@ public class Dijkstra {
     private MinHeap pq;
     private int height;
     private int width;
+    private int finalcount;
     private int[] directions = {0,-1,1};
 
     
@@ -35,6 +36,7 @@ public class Dijkstra {
         this.map = map;
         this.distanceFromBeginning = new double[height][width];
         this.settled = new boolean[height][width];
+        this.finalcount = 0;
         
         this.Start = start;
         this.Finish = finish;
@@ -74,6 +76,7 @@ public class Dijkstra {
                 }
                 
                 settled[node.getY()][node.getX()] = true;
+                finalcount++;
                 // this will not stop calculation at nodes which are wasted?
                 for(int xDirection : directions ){
                     for(int yDirection : directions) {
@@ -120,18 +123,9 @@ public class Dijkstra {
     }
     
     public int getCount() {
-        int finalcount = 0;
-        for (int i = 0; i < 512; i++) {
-            for (int j = 0; j < 512; j++) {
-                if (settled[i][j] == true) {
-                    finalcount++;
-                }
-            }
-        }
         return finalcount;
     }
     
-
     private void markPath(Node previous) {
         if(previous.getPrevious()!=null){
             map[previous.getY()][previous.getX()] = 'D';

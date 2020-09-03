@@ -26,6 +26,7 @@ import visualizer.algorithms.Dijkstra;
 import visualizer.algorithms.JPS;
 import visualizer.datastructures.Node;
 import visualizer.logic.Logic;
+import visualizer.logic.PerformanceTesting;
 
 /**
  *
@@ -41,6 +42,7 @@ public class graphicalUI extends Application{
     Node finish = new Node(511,511);
     boolean canvasStart = false;
     boolean canvasFinish = false;
+    PerformanceTesting test = new PerformanceTesting();
     
     @Override
     public void start(Stage window) {
@@ -55,11 +57,14 @@ public class graphicalUI extends Application{
         Button jpsFinder = new Button("Find path (JPS)");
         
         Button clearField = new Button("Clear field");
-        Button benchmark = new Button("Load map");
+        Button loader = new Button("Load map");
+        Button benchmark = new Button("Run performance tests");
         ChoiceBox choiceBox = new ChoiceBox();
-        Label settledLabel = new Label("Nodes accessed: 0");
-        Label timeTaken = new Label("Took: 0 ms");
+        Label dijkstraTime = new Label("Dijsktra took: 0 ms");
+        Label aStarTime = new Label("A* took: 0 ms");
+        Label JPSTime = new Label("JPS took: 0 ms");
         Label pathLength = new Label("Path length: 0");
+        Label benchmarksTime = new Label("");
         // add icons
         choiceBox.getItems().add("Start");
         choiceBox.getItems().add("End");
@@ -80,10 +85,13 @@ public class graphicalUI extends Application{
         buttons.getChildren().add(clearField);
         buttons.getChildren().add(choiceBox);
         buttons.getChildren().add(mapBox);
-        buttons.getChildren().add(benchmark);
-        buttons.getChildren().add(settledLabel);
-        buttons.getChildren().add(timeTaken);
+        buttons.getChildren().add(loader);
+        buttons.getChildren().add(dijkstraTime);
+        buttons.getChildren().add(aStarTime);
+        buttons.getChildren().add(JPSTime);
         buttons.getChildren().add(pathLength);
+        buttons.getChildren().add(benchmark);
+        buttons.getChildren().add(benchmarksTime);
         buttons.setSpacing(10);
         
         setting.setLeft(buttons);
@@ -139,8 +147,7 @@ public class graphicalUI extends Application{
             double pathlength = algorithm.findPath();
             long end = System.nanoTime();
             map = algorithm.finalMap();
-            settledLabel.setText("Nodes accessed: " + algorithm.getCount());
-            timeTaken.setText("Took: "+((float)(end-now)/1000000)+" ms");
+            aStarTime.setText("A* took: "+((float)(end-now)/1000000)+" ms, Accessed nodes: "+algorithm.getCount());
             pathLength.setText("Path length: " + pathlength);
             boolean[][] settled = algorithm.getClosed();
             for(int i = 0; i<512;i++){
@@ -165,8 +172,7 @@ public class graphicalUI extends Application{
             long now = System.nanoTime();
             double pathlength = algorithm.findPath();
             long end = System.nanoTime();
-            settledLabel.setText("Nodes accessed: " + algorithm.getCount());
-            timeTaken.setText("Took: " + ((float)(end - now) / 1000000) + " ms");
+            dijkstraTime.setText("Dijkstra took: " + ((float)(end - now) / 1000000)+" ms, Accessed nodes: "+algorithm.getCount());
             pathLength.setText("Path length: "+ pathlength);
             map = algorithm.finalMap();
             boolean[][] settled = algorithm.getClosed();
@@ -193,8 +199,7 @@ public class graphicalUI extends Application{
             double pathlength = algorithm.findPath();
             long end = System.nanoTime();
             map = algorithm.finalMap();
-            settledLabel.setText("Nodes accessed: " + algorithm.getCount());
-            timeTaken.setText("Took: " + ((float)(end - now) / 1000000) + " ms");
+            JPSTime.setText("JPS took: " + ((float)(end - now) / 1000000)+" ms, Accessed nodes: "+algorithm.getCount());
             pathLength.setText("Path length: " + pathlength);
             boolean[][] settled = algorithm.getClosed();
             boolean[][] considered = algorithm.getConsidered();
@@ -202,10 +207,10 @@ public class graphicalUI extends Application{
                 for (int j = 0; j < 512; j++) {
                     if (map[i][j] == 'J') {
                         drawer.setFill(Color.GREEN);
-                        drawer.fillRect(j, i, 3, 3);
+                        drawer.fillRect(j, i, 5, 5);
                     } else if (settled[i][j] == true && map[i][j] != 'D' && map[i][j]!='A') {
                         drawer.setFill(Color.web("0x0000FF", 1));
-                        drawer.fillRect(j, i, 2, 2);
+                        drawer.fillRect(j, i, 1, 1);
                     } else if(considered[i][j]==true) {
                         drawer.setFill(Color.web("#808080", 0.1));
                         drawer.fillRect(j, i, 1, 1);
@@ -218,7 +223,7 @@ public class graphicalUI extends Application{
             drawer.fillRect(finish.getX(), finish.getY(), 6, 6);
         });
         
-        benchmark.setOnAction((event)->{
+        loader.setOnAction((event)->{
             String value = (String) mapBox.getValue();
             map = logic.mapReader(value);
             drawer.clearRect(0,0,520,520);
@@ -239,6 +244,13 @@ public class graphicalUI extends Application{
             drawer.setFill(Color.ORCHID);
             drawer.fillRect(finish.getX(), finish.getY(), 6, 6);
         });
+        
+        benchmark.setOnAction((event)->{
+           String value = (String) mapBox.getValue();
+           long[] benchmarkResults = test.runTestSuite(value);
+           benchmarksTime.setText("Benchmarks took Dijkstra: " + benchmarkResults[1] + " ms, A*: "+ benchmarkResults[0]+" ms, JPS: "+benchmarkResults[2]+" ms");
+        });
+        
         
         clearField.setOnAction((event)-> {
             drawer.setFill(Color.WHITE);

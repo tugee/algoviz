@@ -4,9 +4,10 @@
  * and open the template in the editor.
  */
 package visualizer.algorithms;
-import java.util.ArrayList;
 import visualizer.datastructures.MinHeap;
 import visualizer.datastructures.Node;
+import visualizer.datastructures.DynamicList;
+
 import java.util.Set;
 /**
  *
@@ -23,6 +24,7 @@ public class JPS {
     private int width;
     private int[] directions = {0, -1, 1};
     private boolean[][] considered;
+    private int finalcount;
     
     public JPS(char[][] map, Node start, Node finish) {
         this.height = map.length;
@@ -32,6 +34,7 @@ public class JPS {
         this.distanceFromBeginning = new double[height][width];
         this.closed = new boolean[height][width];
         this.considered = new boolean[height][width];
+        this.finalcount = 0;
 
         this.Start = start;
         this.Finish = finish;
@@ -43,7 +46,13 @@ public class JPS {
             }
         }
     }
-    
+    /** 
+     * The euclidian heuristic distance to the specified finish node from the current coordinates
+     * @param x -coordinate of current node
+     * @param y -coordinate of current node
+     * @param finish objective node, to which we measure the euclidean distance to
+     * @return the distance between current and objective node
+     */
     public double heuristicDistanceEnd(int x, int y, Node finish) {
         int xDistance = finish.getX()-x;
         int yDistance = finish.getY()-y;
@@ -51,11 +60,15 @@ public class JPS {
         return distance;
     }
     
+    
+    /**
+     * Finds the shortest path from start node to finish node using the Jump Point Search algorithm.
+     * @return distance from start to finish, if exists, otherwise return 0
+     */
     public double findPath() {
         distanceFromBeginning[Start.getY()][Start.getX()] = 0;
         Start.setMinDistance(0);
         pq.add(Start);
-        System.out.println(Start.getX()+" "+Start.getY());
         while(!pq.isEmpty()) {
             Node node = pq.poll();
 //            System.out.println("Minheap is currently processing "+node.getX() + " " + node.getY());
@@ -66,11 +79,12 @@ public class JPS {
             }
 
             closed[node.getY()][node.getX()] = true;
-            ArrayList<Node> successors = identifySuccessors(node);
-            for(Node next : successors){
-                if(next.equals(Finish)){
-                    System.out.println("HELLO!");
-                }
+            finalcount++;
+            
+            DynamicList successors = identifySuccessors(node);
+            
+            for(int i = 0; i < successors.size(); i++){
+                Node next = successors.get(i);
                 int neighbourY = next.getY();
                 int neighbourX = next.getX();
                 
@@ -90,15 +104,15 @@ public class JPS {
                 }
             }
         }
-        System.out.println(Finish.getX() + " " + Finish.getY());
         return 0;
     }
     
-    public ArrayList<Node> identifySuccessors(Node current){
-        ArrayList<Node> successors = new ArrayList<>();
-        ArrayList<Node> neighbours = identifyNeighbours(current);
+    public DynamicList identifySuccessors(Node current){
+        DynamicList successors = new DynamicList();
+        DynamicList neighbours = identifyNeighbours(current);
 //        System.out.println("neighbour count " + neighbours.size());
-            for(Node neighbour : neighbours){
+            for(int i = 0; i < neighbours.size();i++){
+                Node neighbour = neighbours.get(i);
 //                System.out.println(neighbour.getX() + " neighbour XY " + neighbour.getY());
                 int dirY = neighbour.getY()-current.getY();
                 int dirX = neighbour.getX()-current.getX();
@@ -126,8 +140,8 @@ public class JPS {
      * @param current The node neighbours of which we want to identify
      * @return list of nodes, which are our list of pruned neighbours
      */
-    public ArrayList<Node> identifyNeighbours(Node current){
-        ArrayList<Node> neighbours = new ArrayList<>();
+    public DynamicList identifyNeighbours(Node current){
+        DynamicList neighbours = new DynamicList();
         
         int x = current.getX();
         int y = current.getY();
@@ -313,25 +327,40 @@ public class JPS {
     private void markPath(Node previous) {
         if (previous.getPrevious() != null) {
             map[previous.getY()][previous.getX()] = 'J';
+//            markPathBetweenJumpPoints(previous);
             markPath(previous.getPrevious());
         }
     }
+    
+//    private void markPathBetweenJumpPoints(Node previous) {
+//        int[] direction = previous.parentDirection();
+//        
+//        int x = previous.getX();
+//        int y = previous.getY();
+//        
+//        int px = previous.getPrevious().getX();
+//        int py = previous.getPrevious().getY();
+//        
+//        int dx = direction[0];
+//        int dy = direction[1];
+//        
+//        while((x!=px) || (y!=py)){
+//            x += dx;
+//            y += dy;
+//            if(checkValidNode(x,y)){
+//                map[y][x] = 'J';   
+//            }            
+//        }
+//    }
 
     public int getCount() {
-        int finalcount = 0;
-        for (int i = 0; i < 512; i++) {
-            for (int j = 0; j < 512; j++) {
-                if (closed[i][j] == true) {
-                    finalcount++;
-                }
-            }
-        }
         return finalcount;
     }
-
+    
     public boolean[][] getClosed() {
         return closed;
     }
+    
     public boolean[][] getConsidered() {
         return considered;
     }

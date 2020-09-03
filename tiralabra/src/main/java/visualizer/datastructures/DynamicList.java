@@ -8,21 +8,33 @@ package visualizer.datastructures;
 /**
  *
  * @author tuukk
+ * We implement a List structure to allow for
  */
-public class DynamicList {
-    Node[] nodeList = new Node[10];
-    int values = 0;
+public class DynamicList{
+    Node[] nodeList;
+    int values;
+    
+    public DynamicList(){
+        this.nodeList = new Node[10];
+        this.values = 0;
+    }
     
     public void add(Node newNode){
         if(nodeList.length==values){
             this.grow();
         }
-        nodeList[values] = newNode;
-        
+        nodeList[values++] = newNode;
     }
     
-    public void remove(){
-        
+    public int size(){
+        return values;
+    }
+    
+    public Node get(int index){
+        if(index < values){
+            return nodeList[index];
+        }
+        return null;
     }
     
     public void grow(){
@@ -31,6 +43,10 @@ public class DynamicList {
             nodeListNew[i]=nodeList[i];
         }
         nodeList = nodeListNew;
+    }
+    
+    public Node[] getList(){
+        return nodeList;
     }
     
 }

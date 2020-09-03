@@ -23,6 +23,7 @@ public class Astar {
     private int height;
     private int width;
     private int[] directions = {0,-1,1};
+    private int finalcount;
     /**
      *
      * Initializing variables needed for A* to run.
@@ -36,6 +37,7 @@ public class Astar {
         this.map = map;
         this.distanceFromBeginning = new double[height][width];
         this.closed = new boolean[height][width];
+        this.finalcount++;
         
         this.Start = start;
         this.Finish = finish;
@@ -56,7 +58,9 @@ public class Astar {
      * @return 
      */
     public double heuristicDistanceEnd(int x, int y, Node finish){
-        double distance = Math.sqrt(Math.pow(finish.getX()-x,2)+Math.pow(finish.getY()-y,2));
+        int xDistance = finish.getX()-x;
+        int yDistance = finish.getY()-y;
+        double distance = Math.sqrt(xDistance*xDistance + yDistance*yDistance);
         return distance;
     }
     /**
@@ -81,6 +85,7 @@ public class Astar {
                     return distanceFromBeginning[node.getY()][node.getX()];
                 }
                 closed[node.getY()][node.getX()] = true;
+                finalcount++;
                 // this will not stop calculation at nodes which are wasted?
                 for(int xDirection : directions) {
                     for(int yDirection : directions) {
@@ -129,14 +134,6 @@ public class Astar {
     }
     
     public int getCount() {
-        int finalcount=0;
-        for(int i = 0; i<512;i++){
-            for(int j = 0; j<512;j++){
-                if(closed[i][j]==true){
-                    finalcount++;
-                }
-            }
-        }
         return finalcount;
     }
     
