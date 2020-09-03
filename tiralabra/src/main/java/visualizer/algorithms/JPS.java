@@ -324,7 +324,7 @@ public class JPS {
         return map;
     }
 
-    private void markPath(Node previous) {
+    public void markPath(Node previous) {
         if (previous.getPrevious() != null) {
             map[previous.getY()][previous.getX()] = 'J';
 //            markPathBetweenJumpPoints(previous);

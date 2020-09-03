@@ -37,24 +37,21 @@ public class Logic{
         return null;
     }
     
-    public DynamicList scenarioGetter(String filename){
+    public DynamicList scenarioGetter(String filename, int scenarioNumber){
         DynamicList scenarios = new DynamicList();
         try(Scanner reader = new Scanner(Paths.get("map/"+filename))){
-            int scenarionumber = 0;
             while(reader.hasNextLine()){
                 String rivi = reader.nextLine();
                 String[] parts = rivi.split("\\s+");
-                if(Integer.valueOf(parts[0]) > scenarionumber){
+                if(Integer.valueOf(parts[0]) > scenarioNumber){
                     return scenarios;
                 }
                 int xStart = Integer.valueOf(parts[4]);
                 int yStart = Integer.valueOf(parts[5]);
-                System.out.println(yStart);
                 Node start = new Node(xStart,yStart);
                 
                 int xFinish = Integer.valueOf(parts[6]);
                 int yFinish = Integer.valueOf(parts[7]);
-                System.out.println(yFinish);
                 Node finish = new Node(xFinish,yFinish);
                 
                 scenarios.add(start);

@@ -11,41 +11,81 @@ import visualizer.datastructures.DynamicList;
 /**
  *
  * @author tuukk
+ * Unfortunately had to recycle code here, because I have not implemented the algorithm as an abstract class.
  */
 public class PerformanceTesting {
     Logic logic = new Logic();
+    char[][] map;
+    DynamicList testNodes;
     
-    public PerformanceTesting(){   
+    public PerformanceTesting(String filename){
+        this.testNodes = logic.scenarioGetter(filename + ".scen", 20);
+        this.map = logic.mapReader(filename);
     }
-    public long[] runTestSuite(String filename){
-        System.out.println(filename+".scen");
-        DynamicList testNodes = logic.scenarioGetter(filename+".scen");
-        char[][] map = logic.mapReader(filename);
-        long aStarTime = 0;
-        long dijkstraTime = 0;
-        long JPSTime = 0;
+    
+    public long aStarPerformance(){
+        long time = 0;
         
         for(int i = 0; i < testNodes.size() - 1; i++){
-            JPS jps = new JPS(map,testNodes.get(i),testNodes.get(i+1));
-            long now = System.nanoTime();
-            jps.findPath();
-            long end = System.nanoTime();
-            JPSTime = JPSTime + (end-now);
             
-            Dijkstra dijkstra = new Dijkstra(map, testNodes.get(i), testNodes.get(i + 1));
-            now = System.nanoTime();
-            dijkstra.findPath();
-            end = System.nanoTime();
-            dijkstraTime = dijkstraTime + (end - now);
+            Astar algorithm = new Astar(map, testNodes.get(i), testNodes.get(i + 1));
             
-            Astar astar = new Astar(map, testNodes.get(i), testNodes.get(i + 1));
-            now = System.nanoTime();
-            astar.findPath();
-            end = System.nanoTime();
-            aStarTime = aStarTime + (end-now);
+//            long provisional = 0;
+//            for(int j = 0; j < 4; j++){
+                long now = System.nanoTime();
+                algorithm.findPath();
+                long end = System.nanoTime();
+//                if(j == 0){
+//                    continue;
+//                }
+//                provisional = provisional + (end - now);
+//            }
+            time = time + (end-now);
         }
-        System.out.println(aStarTime/1000000 +" A*"+ dijkstraTime/1000000 + "Dijkstra, JPS: " + JPSTime/1000000 +" ms");
-        long[] returnArray = {aStarTime/1000000,dijkstraTime/1000000,JPSTime/1000000};
-        return returnArray;
+        return time;
+    }
+    
+    public long dijkstraPerformance() {
+        long time = 0;
+
+        for (int i = 0; i < testNodes.size() - 1; i++) {
+
+            Astar algorithm = new Astar(map, testNodes.get(i), testNodes.get(i + 1), true);            
+//            long provisional = 0;
+//            for (int j = 0; j < 4; j++) {
+                long now = System.nanoTime();
+                algorithm.findPath();
+                long end = System.nanoTime();
+//                if (j == 0) {
+//                    continue;
+//                }
+//                provisional = provisional + (end - now);
+//            }
+            time = time + (end-now);
+        }
+        return time;
+    }
+    
+    public long JPSPerformance() {
+        long time = 0;
+
+        for (int i = 0; i < testNodes.size() - 1; i++) {
+
+            JPS algorithm = new JPS(map, testNodes.get(i), testNodes.get(i + 1));
+            
+//            long provisional = 0;
+//            for (int j = 0; j < 4; j++) {
+                long now = System.nanoTime();
+                algorithm.findPath();
+                long end = System.nanoTime();
+                time = time + (end - now);
+//                if (j == 0) {
+//                    continue;
+//                }
+//                provisional = provisional + (end - now);
+//            }
+//            time = time + provisional / 3;
+        }
+        return time;
     }
 }

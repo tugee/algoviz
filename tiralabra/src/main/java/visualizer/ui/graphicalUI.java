@@ -42,7 +42,7 @@ public class graphicalUI extends Application{
     Node finish = new Node(511,511);
     boolean canvasStart = false;
     boolean canvasFinish = false;
-    PerformanceTesting test = new PerformanceTesting();
+    PerformanceTesting test;
     
     @Override
     public void start(Stage window) {
@@ -146,6 +146,9 @@ public class graphicalUI extends Application{
             long now = System.nanoTime();
             double pathlength = algorithm.findPath();
             long end = System.nanoTime();
+            if (pathlength != 0) {
+                algorithm.markPath(finish);
+            }
             map = algorithm.finalMap();
             aStarTime.setText("A* took: "+((float)(end-now)/1000000)+" ms, Accessed nodes: "+algorithm.getCount());
             pathLength.setText("Path length: " + pathlength);
@@ -168,10 +171,13 @@ public class graphicalUI extends Application{
         });
         
         dijkstraFinder.setOnAction((event) -> {
-            Dijkstra algorithm = new Dijkstra(map, start, finish);
+            Astar algorithm = new Astar(map, start, finish,true);
             long now = System.nanoTime();
             double pathlength = algorithm.findPath();
             long end = System.nanoTime();
+            if(pathlength!=0){
+                algorithm.markPath(finish);
+            }
             dijkstraTime.setText("Dijkstra took: " + ((float)(end - now) / 1000000)+" ms, Accessed nodes: "+algorithm.getCount());
             pathLength.setText("Path length: "+ pathlength);
             map = algorithm.finalMap();
@@ -198,6 +204,9 @@ public class graphicalUI extends Application{
             long now = System.nanoTime();
             double pathlength = algorithm.findPath();
             long end = System.nanoTime();
+            if (pathlength != 0) {
+                algorithm.markPath(finish);
+            }
             map = algorithm.finalMap();
             JPSTime.setText("JPS took: " + ((float)(end - now) / 1000000)+" ms, Accessed nodes: "+algorithm.getCount());
             pathLength.setText("Path length: " + pathlength);
@@ -247,8 +256,16 @@ public class graphicalUI extends Application{
         
         benchmark.setOnAction((event)->{
            String value = (String) mapBox.getValue();
-           long[] benchmarkResults = test.runTestSuite(value);
-           benchmarksTime.setText("Benchmarks took Dijkstra: " + benchmarkResults[1] + " ms, A*: "+ benchmarkResults[0]+" ms, JPS: "+benchmarkResults[2]+" ms");
+           test = new PerformanceTesting(value);
+           if("user.map".equals(value)){
+               benchmarksTime.setText("Select non-user map to run benchmark tests");
+               return;
+           }
+           long[] benchmarkResults = new long[3];
+           benchmarkResults[2] = test.JPSPerformance();
+           benchmarkResults[1] = test.aStarPerformance();
+           benchmarkResults[0] = test.dijkstraPerformance();
+           benchmarksTime.setText("Benchmarks took Dijkstra: " + benchmarkResults[0]/1000000.0 + " ms, A*: "+ benchmarkResults[1]/1000000.0 +" ms, JPS: "+benchmarkResults[2]/1000000.0+" ms");
         });
         
         

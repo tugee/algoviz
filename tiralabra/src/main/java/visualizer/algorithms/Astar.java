@@ -24,6 +24,7 @@ public class Astar {
     private int width;
     private int[] directions = {0,-1,1};
     private int finalcount;
+    private boolean dijkstra;
     /**
      *
      * Initializing variables needed for A* to run.
@@ -38,6 +39,7 @@ public class Astar {
         this.distanceFromBeginning = new double[height][width];
         this.closed = new boolean[height][width];
         this.finalcount++;
+        this.dijkstra = false;
         
         this.Start = start;
         this.Finish = finish;
@@ -49,6 +51,11 @@ public class Astar {
             }
         }
     }
+    
+    public Astar(char[][] map, Node start, Node finish, boolean dijkstra){
+        this(map,start,finish);
+        this.dijkstra = dijkstra;
+    }
      /**
      *
      * Using Euclidean distance heuristic.
@@ -58,6 +65,9 @@ public class Astar {
      * @return 
      */
     public double heuristicDistanceEnd(int x, int y, Node finish){
+        if(dijkstra){
+            return 0;
+        }
         int xDistance = finish.getX()-x;
         int yDistance = finish.getY()-y;
         double distance = Math.sqrt(xDistance*xDistance + yDistance*yDistance);
@@ -81,7 +91,6 @@ public class Astar {
             Node node = pq.poll();
                 // is there an issue here, where the first time you reach the end node, it might not be the shortest?
                 if(node.equals(Finish)){
-                    markPath(node);
                     return distanceFromBeginning[node.getY()][node.getX()];
                 }
                 closed[node.getY()][node.getX()] = true;
@@ -126,7 +135,7 @@ public class Astar {
         return map;
     }
     
-    private void markPath(Node previous) {
+    public void markPath(Node previous) {
         if(previous.getPrevious()!=null){
             map[previous.getY()][previous.getX()] = 'A';
             markPath(previous.getPrevious());
