@@ -205,11 +205,11 @@ public class JPS {
         return neighbours;
     }
     /**
-     * 
-     * @param initial
-     * @param dx
-     * @param dy
-     * @return 
+     * Jumps recursively allowing for the performance premium of the jump point search algorithm
+     * @param initial current node we are considering a jump from
+     * @param dx direction of jump in x direction
+     * @param dy direction of jump in y direction
+     * @return node which ends recursion, or null if final considered node in movement direction is a wall or out of bounds.
      */
     private Node jump(Node initial, int dx, int dy){
         int x = initial.getX();
