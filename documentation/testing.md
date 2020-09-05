@@ -10,14 +10,18 @@ I created a few simple tests for the algorithms. I tested the functioning on a s
 Path finding tests utilizing the MovingAI labs pregenerated scenarios proved to be useful but not completely reliable as my algorithm did not use exactly similar movement rules.
 
 ## Performance testing
-We run the three algorithms on a thousand specified scenarios on the Paris streetmap and a maze from MovingAI labs benchmarks. We discard the first run and only time the second run time for each pair of start and finish nodes for each algorithm. These performance tests are reproducible by running the UI and selecting a MovingAI labs map from the drop-down menu. 
+We run the three algorithms on a thousand specified scenarios on the Paris streetmap and a maze from MovingAI labs benchmarks. We discard the first run and only time the second run time for each pair of start and finish nodes for each algorithm. These performance tests are reproducible by running the UI and selecting a MovingAI labs map from the drop-down menu. I have specifically not included the initializing of maps or marking the path after finding the route from the start node to the finish node. 
 ```
 algorithm.findPath();
 long now = System.nanoTime();
 algorithm.findPath();
 long end = System.nanoTime();
  ```
-_Utilized System.nanoTime(); to measure the time taken to run the performance tests_
+_Utilized System.nanoTime() to measure the time taken to run the performance tests_
+
+## Results
 ![](https://github.com/tugee/algoviz/blob/master/documentation/paris.png)
 
 ![](https://github.com/tugee/algoviz/blob/master/documentation/mazetest.png)
+
+We see that Jump Point Search is clearly the quickest pathfinding algorithm. The suprising result that A* is slower than Dijkstra in the maze can be explained by the fact that the euclidean heuristic can guide the searching algorithm the wrong way when there are many obstacles and dead ends. 
