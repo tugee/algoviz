@@ -5,7 +5,6 @@
  */
 package visualizer.algorithms;
 
-import java.util.PriorityQueue;
 import visualizer.datastructures.Node;
 import visualizer.datastructures.MinHeap;
 
@@ -73,21 +72,22 @@ public class Astar {
         double distance = Math.sqrt(xDistance*xDistance + yDistance*yDistance);
         return distance;
     }
-    
+    /**
+     * 
+     * @return returns the length of the path between the final and start node. 
+     */
     public double findPath() {
         distanceFromBeginning[Start.getY()][Start.getX()] = 0;
         Start.setMinDistance(0);
         pq.add(Start);
         while(!pq.isEmpty()) {
             Node node = pq.poll();
-                // is there an issue here, where the first time you reach the end node, it might not be the shortest?
                 if(node.equals(Finish)){
                     Finish.setPrevious(node.getPrevious());
                     return distanceFromBeginning[node.getY()][node.getX()];
                 }
                 closed[node.getY()][node.getX()] = true;
                 finalcount++;
-                // this will not stop calculation at nodes which are wasted?
                 for(int xDirection : directions) {
                     for(int yDirection : directions) {
                         int neighbourX = node.getX() - xDirection;
@@ -115,12 +115,15 @@ public class Astar {
     
     public boolean checkValidNode(int x, int y){
         if(x < 0 || y < 0 || x >= width || y >= height || map[y][x]=='@'){
-            // add map block checker
             return false;
         }else{
             return true;
         }
     }
+    /**
+     * 
+     * @return the chararray on which the algorithms perform the pathfinding on. Called by the GUI to draw the final result of the pathfinding.
+     */
     public char[][] finalMap(){
         map[Start.getY()][Start.getX()] = 'S';
         map[Finish.getY()][Finish.getX()] = 'F';

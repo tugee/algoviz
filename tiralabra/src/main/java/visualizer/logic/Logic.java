@@ -6,7 +6,6 @@
 package visualizer.logic;
 
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Scanner;
 import visualizer.datastructures.DynamicList;
 import visualizer.datastructures.Node;
