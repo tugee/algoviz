@@ -2,6 +2,7 @@
 
 ## Unit testing
 ![](https://github.com/tugee/algoviz/blob/master/documentation/performanceTesting.png)
+Unit tests utilize the JUnit library.
 As we can see from the coverage report, about 53% of the code is covered by the tests. Performance tests rely on the other classes and the graphical UI are excluded from tests.
 In the logic class the exception catchers are not covered by the tests. In the algorithms class we haven't covered the getter method and markPath method which interacts with the UI. In the data structures package similarly we haven't created tests for the getter classes.
 
