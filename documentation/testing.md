@@ -10,6 +10,18 @@ In the logic class the exception catchers are not covered by the tests. In the a
 I created a few simple tests for the algorithms. I tested the functioning on a simple diagonal path, on a impossible blocked wall path and on movingAI labs map. For the JPS algorithm, I also tested whether the visited Node count in a simple case where the start and finish nodes are on the same path marks 0 jump points.
 Path finding tests utilizing the MovingAI labs pregenerated scenarios proved to be useful but not completely reliable as my algorithm did not use exactly similar movement rules.
 
+## Running the tests
+Running following commands in the command prompt navigated into a downloaded repo will run the unit tests and create jacoco coverage
+```
+mvn build
+mvn jacoco:report
+ ```
+ 
+## Checkstyle
+Checkstyle report can be generated using:
+```
+mvn checkstyle:checkstyle
+ ```
 ## Performance testing
 We run the three algorithms on a thousand specified scenarios on the Paris streetmap and a maze from MovingAI labs benchmarks. We discard the first run and only time the second run time for each pair of start and finish nodes for each algorithm. These performance tests are reproducible by running the UI and selecting a MovingAI labs map from the drop-down menu. I have specifically not included the initializing of maps or marking the path after finding the route from the start node to the finish node. 
 ```
