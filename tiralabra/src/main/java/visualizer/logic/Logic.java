@@ -32,7 +32,7 @@ public class Logic{
             }
             return map;
         } catch (Exception e) {
-            System.out.println("Virhe:  kakka" + e.getMessage());
+            System.out.println("Virhe: " + e.getMessage());
         }
         return null;
     }
@@ -52,7 +52,9 @@ public class Logic{
                 
                 int xFinish = Integer.valueOf(parts[6]);
                 int yFinish = Integer.valueOf(parts[7]);
+                double pathLength = Double.valueOf(parts[8]);
                 Node finish = new Node(xFinish,yFinish);
+                finish.setMinDistance(pathLength);
                 
                 scenarios.add(start);
                 scenarios.add(finish);

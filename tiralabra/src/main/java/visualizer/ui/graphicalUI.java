@@ -14,15 +14,12 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import visualizer.algorithms.Astar;
-import visualizer.algorithms.Dijkstra;
 import visualizer.algorithms.JPS;
 import visualizer.datastructures.Node;
 import visualizer.logic.Logic;
@@ -147,7 +144,7 @@ public class graphicalUI extends Application{
             double pathlength = algorithm.findPath();
             long end = System.nanoTime();
             if (pathlength != 0) {
-                algorithm.markPath(finish);
+                algorithm.markPath();
             }
             map = algorithm.finalMap();
             aStarTime.setText("A* took: "+((float)(end-now)/1000000)+" ms, Accessed nodes: "+algorithm.getCount());
@@ -176,7 +173,7 @@ public class graphicalUI extends Application{
             double pathlength = algorithm.findPath();
             long end = System.nanoTime();
             if(pathlength!=0){
-                algorithm.markPath(finish);
+                algorithm.markPath();
             }
             dijkstraTime.setText("Dijkstra took: " + ((float)(end - now) / 1000000)+" ms, Accessed nodes: "+algorithm.getCount());
             pathLength.setText("Path length: "+ pathlength);
@@ -205,7 +202,7 @@ public class graphicalUI extends Application{
             double pathlength = algorithm.findPath();
             long end = System.nanoTime();
             if (pathlength != 0) {
-                algorithm.markPath(finish);
+                algorithm.markPath();
             }
             map = algorithm.finalMap();
             JPSTime.setText("JPS took: " + ((float)(end - now) / 1000000)+" ms, Accessed nodes: "+algorithm.getCount());

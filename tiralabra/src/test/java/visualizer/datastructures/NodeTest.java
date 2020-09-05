@@ -17,8 +17,12 @@ import static org.junit.Assert.*;
  * @author tuukk
  */
 public class NodeTest {
-    
+    Node testNode;
+    double tolerance = 1e-6;
     public NodeTest() {
+        testNode = new Node(10,20);
+        testNode.setMinDistance(10);
+        
     }
 
     /**
@@ -26,13 +30,8 @@ public class NodeTest {
      */
     @Test
     public void testGetX() {
-        System.out.println("getX");
-        Node instance = null;
-        int expResult = 0;
-        int result = instance.getX();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int result = testNode.getX();
+        assertEquals(result,10);
     }
 
     /**
@@ -40,41 +39,18 @@ public class NodeTest {
      */
     @Test
     public void testGetY() {
-        System.out.println("getY");
-        Node instance = null;
-        int expResult = 0;
-        int result = instance.getY();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int result = testNode.getY();
+        assertEquals(result,20);
     }
 
-    /**
-     * Test of getPriority method, of class Node.
-     */
-    @Test
-    public void testGetPriority() {
-        System.out.println("getPriority");
-        Node instance = null;
-        int expResult = 0;
-        int result = instance.getPriority();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
     /**
      * Test of getMinDistance method, of class Node.
      */
     @Test
     public void testGetMinDistance() {
-        System.out.println("getMinDistance");
-        Node instance = null;
-        int expResult = 0;
-        double result = instance.getMinDistance();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        double result = testNode.getMinDistance();
+        assertEquals(result, 10,tolerance);
     }
 
     /**
@@ -83,38 +59,10 @@ public class NodeTest {
     @Test
     public void testGetPrevious() {
         System.out.println("getPrevious");
-        Node instance = null;
-        Node expResult = null;
-        Node result = instance.getPrevious();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of visit method, of class Node.
-     */
-    @Test
-    public void testVisit() {
-        System.out.println("visit");
-        Node instance = null;
-        instance.visit();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getVisited method, of class Node.
-     */
-    @Test
-    public void testGetVisited() {
-        System.out.println("getVisited");
-        Node instance = null;
-        boolean expResult = false;
-        boolean result = instance.getVisited();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Node previous = new Node(10, 10);
+        testNode.setPrevious(previous);
+        Node result = testNode.getPrevious();
+        assertEquals(previous, result);
     }
 
 }

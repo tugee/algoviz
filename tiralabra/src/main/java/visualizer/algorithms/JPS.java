@@ -71,10 +71,8 @@ public class JPS {
         pq.add(Start);
         while(!pq.isEmpty()) {
             Node node = pq.poll();
-//            System.out.println("Minheap is currently processing "+node.getX() + " " + node.getY());
             if (node.equals(Finish)) {
-//                System.out.println("HELLO!");
-                markPath(node);
+                Finish.setPrevious(node.getPrevious());
                 return distanceFromBeginning[node.getY()][node.getX()];
             }
 
@@ -93,10 +91,8 @@ public class JPS {
                 double newDistance = node.getMinDistance() + heuristicDistanceEnd(neighbourX,neighbourY,node);
 
                 if (newDistance <= currentDistance) {
-//                    System.out.println("Added");
                     distanceFromBeginning[neighbourY][neighbourX] = newDistance;
                     Node newNode = new Node(neighbourX, neighbourY);
-//                    System.out.println(neighbourX + " new Neighbour " + neighbourY);
                     newNode.setHeuristicDistanceEnd(heuristicDistanceEnd(neighbourX, neighbourY, Finish));
                     newNode.setMinDistance(newDistance);
                     newNode.setPrevious(node);
@@ -110,29 +106,21 @@ public class JPS {
     public DynamicList identifySuccessors(Node current){
         DynamicList successors = new DynamicList();
         DynamicList neighbours = identifyNeighbours(current);
-//        System.out.println("neighbour count " + neighbours.size());
             for(int i = 0; i < neighbours.size();i++){
                 Node neighbour = neighbours.get(i);
-//                System.out.println(neighbour.getX() + " neighbour XY " + neighbour.getY());
                 int dirY = neighbour.getY()-current.getY();
                 int dirX = neighbour.getX()-current.getX();
                 if(dirX == 0 & dirY == 0){
                     continue;
                 }
-//                System.out.println(dirX + "direction succession" + dirY);
-//                System.out.println("neighbour x "+neighbour.getX()+" "+neighbour.getY());
-//                System.out.println(dir[0]+" "+dir[1]);
                 Node jumpPoint = jump(current,dirX,dirY);
                 if(jumpPoint!=null){
                     if(closed[jumpPoint.getY()][jumpPoint.getX()]==true){
                         continue;
                     }
-//                    System.out.println("reached");
-//                    System.out.println("jump point added: "+ jumpPoint.getX() + " " + jumpPoint.getY());
                     successors.add(jumpPoint);
                 }
             }
-//            System.out.println("Returning " + successors.size());
         return successors;
     }
     
@@ -147,7 +135,6 @@ public class JPS {
         int y = current.getY();
         
         if(current.getPrevious()==null){
-//            System.out.println("We havereached a point where we need to generate new leads!");
             for(int i = -1; i<2;i++){
                 for(int j = -1; j<2; j++){
                     if(i==0&&j==0){
@@ -160,15 +147,11 @@ public class JPS {
                 }
             }
         } else {
-//            System.out.println("Desparately trying to prune something");
             int[] direction = current.parentDirection();
-//            System.out.println(current.getPrevious().getX() + " parent " + current.getPrevious().getY());
             int dx = direction[0];
             int dy = direction[1];
-//            System.out.println(dx+" "+ dy);
 
             if(dx!=0 && dy!=0){
-//                System.out.println("diagonal pruning");
                     if(checkValidNode(x+dx,y)){
                         Node neighbourNode = new Node(x + dx, y);
                         neighbours.add(neighbourNode);
@@ -191,7 +174,6 @@ public class JPS {
                     }
             } else {
                 if (dx != 0) {
-//                    System.out.println("horizontal pruning");
                     if (!checkValidNode(x, y + 1)) {
                         Node neighbourNode = new Node(x + dx, y + 1);
                         neighbours.add(neighbourNode);
@@ -205,7 +187,6 @@ public class JPS {
                         neighbours.add(neighbourNode);
                     }
                 } else {
-//                    System.out.println("vertical pruning");
                     if (!checkValidNode(x + 1, y)) {
                         Node neighbourNode = new Node(x + 1, y + dy);
                         neighbours.add(neighbourNode);
@@ -230,22 +211,16 @@ public class JPS {
      * @param dy
      * @return 
      */
-    public Node jump(Node initial, int dx, int dy){
+    private Node jump(Node initial, int dx, int dy){
         int x = initial.getX();
         int y = initial.getY();
-//        System.out.println(dx+" distance "+dy);
-//        System.out.println(x+" jumpcandidate "+y);
         Node diagonalForced = new Node(x+dx, y+dy);
         
         if(!checkValidNode(x+dx,y+dy)){
-//            System.out.println("Problems!");
             return null;
         }
         considered[y][x] = true;
         if(diagonalForced.getX()==Finish.getX()&&diagonalForced.getY()==Finish.getY()){
-//            System.out.println(initial.getX()+" asd "+initial.getY());
-//            System.out.println("REACHED" +x + y);
-//            System.out.println(diagonalForced.getX()+" "+diagonalForced.getY());
             return Finish;
         }
    
@@ -270,46 +245,40 @@ public class JPS {
      * @param dy y-axis movement-
      * @return true if algorithm needs to add new jump point because of forced neighbours, false o/w
      */
-    public boolean forcedNeighbourCheck(Node initial, int dx, int dy){
+    private boolean forcedNeighbourCheck(Node initial, int dx, int dy){
         int x = initial.getX();
         int y = initial.getY();
         //diagonal forced neighbour check
         if(dx!=0&& dy!=0){
             if(!checkValidNode(x - dx,y) && checkValidNode(x-dx,y+dy)){
-//                System.out.println((x-dx)+" forced neighbour " + (y+dy));
                 return true;
             }
             if(!checkValidNode(x, y - dy) && checkValidNode(x+dx,y-dy)) {
-//                System.out.println((x + dx) + " forced neighbour " + (y - dy));
                 return true;
             }
         }
         //horizontal forced neighbour check
         else if(dx!=0){
             if (!checkValidNode(x, y + 1) && checkValidNode(x+dx,y+1)) {
-//                System.out.println((x + dx) + " forced neighbour " + (y + 1));
                 return true;
             }
             if (!checkValidNode(x, y - 1) && checkValidNode(x+dx,y-1)) {
-//                System.out.println((x + dx) + " forced neighbour " + (y - 1));
                 return true;
             }
         }
         // vertical forced neighbour check
         else if(dy!=0){
             if (!checkValidNode(x - 1, y) && checkValidNode(x+1,y+dy)) {
-//                System.out.println((x - 1) + " forced neighbour " + (y + dy));
                 return true;
             }
             if (!checkValidNode(x + 1, y) && checkValidNode(x-1,y+dy)) {
-//                System.out.println((x + 1) + " forced neighbour " + (y + dy));
                 return true;
             }
         }
         return false;
     }
     
-    public boolean checkValidNode(int x, int y) {
+    private boolean checkValidNode(int x, int y) {
         if (x < 0 || y < 0 || x >= width || y >= height || map[y][x] == '@') {
             // add map block checker
             return false;
@@ -324,34 +293,13 @@ public class JPS {
         return map;
     }
 
-    public void markPath(Node previous) {
-        if (previous.getPrevious() != null) {
+    public void markPath() {
+        Node previous = Finish;
+        while (previous.getPrevious() != null) {
             map[previous.getY()][previous.getX()] = 'J';
-//            markPathBetweenJumpPoints(previous);
-            markPath(previous.getPrevious());
+            previous = previous.getPrevious();
         }
     }
-    
-//    private void markPathBetweenJumpPoints(Node previous) {
-//        int[] direction = previous.parentDirection();
-//        
-//        int x = previous.getX();
-//        int y = previous.getY();
-//        
-//        int px = previous.getPrevious().getX();
-//        int py = previous.getPrevious().getY();
-//        
-//        int dx = direction[0];
-//        int dy = direction[1];
-//        
-//        while((x!=px) || (y!=py)){
-//            x += dx;
-//            y += dy;
-//            if(checkValidNode(x,y)){
-//                map[y][x] = 'J';   
-//            }            
-//        }
-//    }
 
     public int getCount() {
         return finalcount;

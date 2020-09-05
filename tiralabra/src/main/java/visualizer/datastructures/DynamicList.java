@@ -13,7 +13,7 @@ package visualizer.datastructures;
 public class DynamicList{
     Node[] nodeList;
     int values;
-    
+
     public DynamicList(){
         this.nodeList = new Node[10];
         this.values = 0;

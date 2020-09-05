@@ -17,7 +17,6 @@ public class Node implements Comparable<Node>{
     
     private int x;
     private int y;
-    private int priority;
     private double MinDistance;
     private double heuristicDistanceEnd;
     private boolean visited = false;
@@ -42,10 +41,6 @@ public class Node implements Comparable<Node>{
         return y;
     }
 
-    public int getPriority() {
-        return priority;
-    }
-    
     public double getMinDistance() {
         return MinDistance;
     }
@@ -93,17 +88,9 @@ public class Node implements Comparable<Node>{
         return previous;
     }
     
-    public void visit(){
-        this.visited = true;
-    }
-    
-    public boolean getVisited(){
-        return this.visited;
-    }
-    
     public double adjacentDistance(int x2, int y2){
         if((Math.abs(x2-x)==1) && (Math.abs(y2-y)==1)){
-            return 1.4142;
+            return 1.41421356237;
         } else {
             return 1;
         }

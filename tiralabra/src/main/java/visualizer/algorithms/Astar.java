@@ -65,7 +65,7 @@ public class Astar {
      * @return 
      */
     public double heuristicDistanceEnd(int x, int y, Node finish){
-        if(dijkstra){
+        if(finish.equals(Finish) && dijkstra){
             return 0;
         }
         int xDistance = finish.getX()-x;
@@ -73,15 +73,6 @@ public class Astar {
         double distance = Math.sqrt(xDistance*xDistance + yDistance*yDistance);
         return distance;
     }
-    /**
-     *
-     * Using Euclidean distance heuristic.Add more heuristic if time permits(?)
-     *
-     * @param x
-     * @param y
-     * @param finish
-     * @return
-     */
     
     public double findPath() {
         distanceFromBeginning[Start.getY()][Start.getX()] = 0;
@@ -91,6 +82,7 @@ public class Astar {
             Node node = pq.poll();
                 // is there an issue here, where the first time you reach the end node, it might not be the shortest?
                 if(node.equals(Finish)){
+                    Finish.setPrevious(node.getPrevious());
                     return distanceFromBeginning[node.getY()][node.getX()];
                 }
                 closed[node.getY()][node.getX()] = true;
@@ -105,7 +97,7 @@ public class Astar {
                         }
                         
                         double currentDistance = distanceFromBeginning[neighbourY][neighbourX];
-                        double newDistance = node.getMinDistance() + node.adjacentDistance(neighbourX,neighbourY);
+                        double newDistance = node.getMinDistance() + heuristicDistanceEnd(neighbourX,neighbourY,node);
                         
                         if (newDistance < currentDistance){
                             distanceFromBeginning[neighbourY][neighbourX] = newDistance;
@@ -135,11 +127,16 @@ public class Astar {
         return map;
     }
     
-    public void markPath(Node previous) {
-        if(previous.getPrevious()!=null){
-            map[previous.getY()][previous.getX()] = 'A';
-            markPath(previous.getPrevious());
-        }
+    public void markPath() {
+        Node previous = Finish;
+        while(previous.getPrevious()!=null){
+            if(dijkstra){
+                map[previous.getY()][previous.getX()] = 'D';
+            } else {
+                map[previous.getY()][previous.getX()] = 'A';
+            }
+            previous = previous.getPrevious();
+        } 
     }
     
     public int getCount() {
