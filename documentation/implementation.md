@@ -3,10 +3,10 @@ This program has a graphical user interface that visualizes three different path
 
 ## User I/O
 
-The user can select the start and finish nodes for the respective algorithms to find a path inbetween. The user can also draw walls to block the path of these algorithms, which is useful when trying to understand how sensitive to change these algorithms are. The map has one blank map and 4 pre-loaded maps from MovingAI. These maps are read from .map files which are formed of "@" and ".". 
+The user can select the start and finish nodes for the respective algorithms to find a path inbetween. The user can also draw walls to block the path of these algorithms, which is useful when trying to understand how sensitive to change these algorithms are. The map has one blank map and 4 pre-loaded maps from MovingAI. These maps are read from .map files which are formed of "@" and ".". We also read .map.scen files which contain scenarios of nodes and the lengths of paths between them, which we utilize in some unit tests and performance testing.  
 
 ## Data structures
-We have implemented a Node, Minimum Heap and a List implementation for Nodes. The minimum heap is not general and works only for Nodes.
+We have implemented a Node, Minimum Heap and a List implementation for Nodes. The minimum heap is not general and works only for Nodes. The minimum heap returns the node with the smallest minimum distance from the start node added with a heuristic distance to the end node. In the case of Dijkstra's algorithm this heuristic distance is set as zero and the only ordering in the minheap is done by the distance from the origin, which explains the radial way that Dijkstra finds the shortest path. In A* and JPS this heuristic is calculated with the euclidean distance from the current node to the finish node. 
 
 ## Algorithms
 The A* and Dijkstra algorithms have a similar implementation with the only difference being that A* includes a heuristic that evaluates each node also considering their euclidean distance from the Finish node. Jump Point Search is drastically different and depends on a recursive jumping algorithm which constantly prunes its neighbours for so-called "forced" neighbours which stops the recursion and returns the node to which these forced neighbours are neighbours to. Jump Point Search might "visit" more nodes than say A* but since it adds often an order of magnitude fewer nodes to the minimum heap it performs much better in the time comparison.
