@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package visualizer.logic;
+package visualizer.performancetesting;
 import java.util.Arrays;
 import visualizer.algorithms.*;
 import visualizer.datastructures.DynamicList;
+import visualizer.logic.Logic;
 
 /**
  *
@@ -27,19 +28,11 @@ public class PerformanceTesting {
         long time = 0;
         
         for(int i = 0; i < testNodes.size() - 1; i++){
-            
             Astar algorithm = new Astar(map, testNodes.get(i), testNodes.get(i + 1));
-            
-//            long provisional = 0;
-//            for(int j = 0; j < 4; j++){
+                algorithm.findPath();
                 long now = System.nanoTime();
                 algorithm.findPath();
                 long end = System.nanoTime();
-//                if(j == 0){
-//                    continue;
-//                }
-//                provisional = provisional + (end - now);
-//            }
             time = time + (end-now);
         }
         return time;
@@ -50,17 +43,11 @@ public class PerformanceTesting {
 
         for (int i = 0; i < testNodes.size() - 1; i++) {
 
-            Astar algorithm = new Astar(map, testNodes.get(i), testNodes.get(i + 1), true);            
-//            long provisional = 0;
-//            for (int j = 0; j < 4; j++) {
+            Astar algorithm = new Astar(map, testNodes.get(i), testNodes.get(i + 1), true);    
+                algorithm.findPath();
                 long now = System.nanoTime();
                 algorithm.findPath();
                 long end = System.nanoTime();
-//                if (j == 0) {
-//                    continue;
-//                }
-//                provisional = provisional + (end - now);
-//            }
             time = time + (end-now);
         }
         return time;
@@ -70,21 +57,12 @@ public class PerformanceTesting {
         long time = 0;
 
         for (int i = 0; i < testNodes.size() - 1; i++) {
-
             JPS algorithm = new JPS(map, testNodes.get(i), testNodes.get(i + 1));
-            
-//            long provisional = 0;
-//            for (int j = 0; j < 4; j++) {
+                algorithm.findPath();
                 long now = System.nanoTime();
                 algorithm.findPath();
                 long end = System.nanoTime();
                 time = time + (end - now);
-//                if (j == 0) {
-//                    continue;
-//                }
-//                provisional = provisional + (end - now);
-//            }
-//            time = time + provisional / 3;
         }
         return time;
     }

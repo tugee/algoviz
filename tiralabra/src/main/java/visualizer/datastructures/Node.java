@@ -87,14 +87,6 @@ public class Node implements Comparable<Node>{
     public Node getPrevious() {
         return previous;
     }
-    
-    public double adjacentDistance(int x2, int y2){
-        if((Math.abs(x2-x)==1) && (Math.abs(y2-y)==1)){
-            return 1.41421356237;
-        } else {
-            return 1;
-        }
-    }
 
     @Override
     public int compareTo(Node o2) {

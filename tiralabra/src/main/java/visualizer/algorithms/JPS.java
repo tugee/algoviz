@@ -280,7 +280,6 @@ public class JPS {
     
     private boolean checkValidNode(int x, int y) {
         if (x < 0 || y < 0 || x >= width || y >= height || map[y][x] == '@') {
-            // add map block checker
             return false;
         } else {
             return true;
@@ -299,6 +298,10 @@ public class JPS {
             map[previous.getY()][previous.getX()] = 'J';
             previous = previous.getPrevious();
         }
+    }
+    
+    public void markPathInBetween(){
+        
     }
 
     public int getCount() {

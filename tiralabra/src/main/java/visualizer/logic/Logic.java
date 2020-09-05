@@ -14,11 +14,14 @@ import visualizer.datastructures.Node;
 /**
  *
  * @author tuukk
+ * Logic class allows for reading the map file and returning a char array which is used in further calculation
+ * Also reads the scenario files and returns a list of the respective start and finish nodes of each scenario for the performance testing class to run.
  */
 public class Logic{
     
     public Logic(){
     }
+    
     public char[][] mapReader(String filename){
         try (Scanner reader = new Scanner(Paths.get("map/"+filename))) {
             char[][] map = new char[512][512];
@@ -36,7 +39,12 @@ public class Logic{
         }
         return null;
     }
-    
+    /**
+     * Gets specified map's associated movingai labs scenarios.
+     * @param filename name of file to find scenarios of. 
+     * @param scenarioNumber How many different scenario sets do we want to run, each set contains around 10 scenarios.
+     * @return DynamicList of the start and finish nodes of the different scenarios.
+     */
     public DynamicList scenarioGetter(String filename, int scenarioNumber){
         DynamicList scenarios = new DynamicList();
         try(Scanner reader = new Scanner(Paths.get("map/"+filename))){

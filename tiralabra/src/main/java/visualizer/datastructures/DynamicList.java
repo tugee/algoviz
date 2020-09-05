@@ -37,16 +37,11 @@ public class DynamicList{
         return null;
     }
     
-    public void grow(){
+    private void grow(){
         Node[] nodeListNew = new Node[nodeList.length*2];
         for(int i = 0; i < nodeList.length;i++){
             nodeListNew[i]=nodeList[i];
         }
         nodeList = nodeListNew;
     }
-    
-    public Node[] getList(){
-        return nodeList;
-    }
-    
 }

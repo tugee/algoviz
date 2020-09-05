@@ -23,7 +23,7 @@ import visualizer.algorithms.Astar;
 import visualizer.algorithms.JPS;
 import visualizer.datastructures.Node;
 import visualizer.logic.Logic;
-import visualizer.logic.PerformanceTesting;
+import visualizer.performancetesting.PerformanceTesting;
 
 /**
  *

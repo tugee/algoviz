@@ -42,7 +42,12 @@ public class MinHeapTest {
     public void testPoll() {
         System.out.println("poll");
         Node node = new Node(10, 10);
+        Node comparisonNode = new Node(10,20);
+        comparisonNode.setMinDistance(11);
+        node.setMinDistance(1);
+        
         MinHeap instance = new MinHeap(10);
+        instance.add(comparisonNode);
         instance.add(node);
         
         Node result = instance.poll();
